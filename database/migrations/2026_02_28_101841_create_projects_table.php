@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id(); 
-            $table->string('penname')->nullable();
+            $table->string('penname');
             $table->string('title');
-            $table->text('outline')->nullable();
-            $table->enum('genre', ['fiction', 'mystery', 'romance', 'sci-fi'])->default('non-fiction');
+            $table->text('outline');
+            $table->enum('genre', ['fiction', 'mystery', 'romance', 'sci-fi'])->default('fiction');
             $table->string('book_link')->nullable();
             
             $table->timestamps();

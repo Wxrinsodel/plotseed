@@ -4,9 +4,10 @@
 </head>
 <body>
 
-<h1>Details of {{$project->title}}</h1>
-<p><em>{{$project->penname}}</em></p>
-<p>{{$project->outline}}</p>
+<h1>{{ $project->title }}</h1>
+<p><strong>Penname: {{ $project->penname }}</strong></p>
+<p>{{ $project->outline }}</p>
+<p><em>Genre : {{ $project->genre }}</em></p>
 
 <a href="{{ route('projects.index') }}">Back to list of projects</a>
 </body>

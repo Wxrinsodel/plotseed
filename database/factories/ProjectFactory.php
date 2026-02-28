@@ -16,11 +16,12 @@ class ProjectFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'title' => $this->faker->sentence(),
-            'outline' => $this->faker->paragraph(),
-            'genre' => $this->faker->randomElement(['fiction', 'mystery', 'romance', 'sci-fi']),
-            'book_link' => $this->faker->url(),
+        return [ 
+            'penname' => fake()->name(),
+            'title' => fake()->sentence(3),
+            'outline' => fake()->paragraph(),
+            'genre' => fake()->randomElement(['fiction', 'mystery', 'romance', 'sci-fi']),
+            'book_link' => fake()->url(),
             //
         ];
     }
