@@ -7,7 +7,7 @@
     <h1>List of Projects</h1>
     <ul>
         @foreach($projects as $project)
-            <li> <a href="{{ route('projects.show', $project) }}">{{ $project }}</a></li>
+            <li> <a href="{{ route('projects.show', $project->title) }}">{{ $project->title }}</a></li>
         @endforeach
     </ul>
 </body>
