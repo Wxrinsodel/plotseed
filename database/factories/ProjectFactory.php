@@ -19,6 +19,7 @@ class ProjectFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'outline' => $this->faker->paragraph(),
+            'genre' => $this->faker->randomElement(['fiction', 'mystery', 'romance', 'sci-fi']),
             'book_link' => $this->faker->url(),
             //
         ];

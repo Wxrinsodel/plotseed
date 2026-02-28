@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('penname')->nullable();
             $table->string('title');
             $table->text('outline')->nullable();
+            $table->enum('genre', ['fiction', 'mystery', 'romance', 'sci-fi'])->default('non-fiction');
             $table->string('book_link')->nullable();
             
             $table->timestamps();
