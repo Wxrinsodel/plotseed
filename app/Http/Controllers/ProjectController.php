@@ -10,12 +10,15 @@ class ProjectController extends Controller
     {
         $projects = \App\Models\Project::all();
 
-
         return view('projects.index', ['projects' => $projects]);
     }
 
-    public function show($project)
+    public function show($id)
     {
+
+        $project = \App\Models\Project::findOrFail($id);
+
+        
         return view('projects.show', ['project' => $project]);
     }
 }
