@@ -10,8 +10,8 @@ class ProjectController extends Controller
     {
         $projects = [
             'Lovely project',
-            'Dramatic project',
-            'Incredible project',
+            'Dragon project',
+            'Awesome project',
         ];
 
         return view('projects.index', ['projects' => $projects]);
