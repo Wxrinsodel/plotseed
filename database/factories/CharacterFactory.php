@@ -17,7 +17,6 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'project_id' => fake()->numberBetween(1, 10),
             'name' => fake()->name(),
             'role' => fake()->jobTitle(),
         ];
