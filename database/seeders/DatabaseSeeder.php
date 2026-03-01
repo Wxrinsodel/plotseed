@@ -15,8 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Project::factory(10)->create();
+        $projects = Project::factory(10)->create();
+        
+        $characters = Character::factory(30)->create();
 
-        Character::factory(30)->create();
+        foreach ($projects as $project) {
+            
+            $project->characters()->attach(
+                $characters->random(3)->pluck('id')->toArray()
+            );
+        }
     }
 }
+
