@@ -17,12 +17,14 @@
 
 </div>
 
+
 <div class="p-4">
 
-<h1 class="text-3xl font-bold">{{ $project->title }}</h1>
-<p><strong>Penname: {{ $project->penname }}</strong></p>
-<p>{{ $project->outline }}</p>
-<p><em>Genre : {{ $project->genre }}</em></p>
+
+    <h1 class="text-3xl font-bold">{{ $project->title }}</h1>
+    <p><strong>Penname: {{ $project->penname }}</strong></p>
+    <p>{{ $project->outline }}</p>
+    <p><em>Genre : {{ $project->genre }}</em></p>
 
 
 <hr/>
