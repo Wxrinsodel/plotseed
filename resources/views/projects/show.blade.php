@@ -1,22 +1,27 @@
 <html>
 <head>
     <title>Details of {{$project->title}}</title>
-</head>
-<body>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-<h1>{{ $project->title }}</h1>
+</head>
+<body class="bg-blue-200 p-4">
+
+<h1 class="text-3xl font-bold">{{ $project->title }}</h1>
 <p><strong>Penname: {{ $project->penname }}</strong></p>
 <p>{{ $project->outline }}</p>
 <p><em>Genre : {{ $project->genre }}</em></p>
 
 
 <hr/>
-<h2>Characters</h2>
-<ul>
+
+<div class="mt-6 mb-2">
+    <h2 class="inline text-xl font-semibold text-black-800 bg-blue-100">Characters</h2>
+    <ul class="list-disc list-inside">
     @foreach($project->characters as $character)
         <li>
-            <p><strong>Name:</strong> {{ $character->name }}</p>
-            <p><strong>Role:</strong> {{ $character->role }}</p>
+                <strong>Name:</strong> {{ $character->name }}
+
+                <strong>Role:</strong> {{ $character->role }}
 
             <a href="#">Character's detail: url of that charcater</a>
 
@@ -24,6 +29,11 @@
         </li>
     @endforeach
 </ul>
+
+
+
+</div>
+
 
 <a href="{{ route('projects.index') }}">Back to list of projects</a>
 </body>
