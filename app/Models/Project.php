@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Project extends Model
 {
     use HasFactory;
+    public function characters()
+    {
+        return $this->hasMany(Character::class, 'project_id', 'id');
+    }
     //
 }
