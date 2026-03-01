@@ -1,4 +1,4 @@
-<x-site-layout>
+<x-site-layout title="{{$project->title}}">
 
     <h1 class="text-3xl font-bold">{{ $project->title }}</h1>
     <p><strong>Penname: {{ $project->penname }}</strong></p>

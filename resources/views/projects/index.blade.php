@@ -1,4 +1,4 @@
-<x-site-layout>
+<x-site-layout title="List of projects">
 
 
     <h1 class="inline text-xl font-semibold text-black-800">List of Projects</h1>
