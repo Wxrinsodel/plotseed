@@ -10,7 +10,7 @@ class Project extends Model
     use HasFactory;
     public function characters()
     {
-        return $this->hasMany(Character::class, 'project_id', 'id');
+        return $this->belongsToMany(Character::class);
     }
     //
 }
