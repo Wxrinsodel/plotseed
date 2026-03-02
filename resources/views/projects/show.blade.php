@@ -6,9 +6,9 @@
                 &larr; Back to all projects
             </a>
             
-            <div class="flex space-x-3">
-                <span class="text-sm text-gray-400 italic mt-2">Area for Edit/Delete buttons</span>
-            </div>
+            <a href="/projects/{{$project->id}}/edit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition">
+    Edit Project
+</a>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
