@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('penname');
             $table->string('title');
-            $table->text('outline');
-            $table->enum('genre', ['fiction', 'mystery', 'romance', 'sci-fi'])->default('fiction');
+            $table->text('outline')->nullable();
+            $table->string('genre')->nullable();
             $table->string('book_link')->nullable();
             
             $table->timestamps();
