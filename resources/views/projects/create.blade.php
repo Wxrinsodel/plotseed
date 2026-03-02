@@ -6,13 +6,24 @@
             @csrf <div class="space-y-4">
                 <div>
                     <label class="block font-semibold">Project Title</label>
-                    <input type="text" name="title" class="w-full border-2 p-2 rounded-lg" placeholder="your project title" required>
-                </div>
+                    <div class="mb-4">
+                
+                <input type="text" id="title" name="title" value="{{ old('title', null) }}" 
+                    class="w-full p-2 border rounded-lg @error('title') border-red-600 @else border-gray-300 @enderror">
+                
+                @error('title')
+                    <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
+                @enderror
+            </div>
 
-                <div>
-                    <label class="block font-semibold">Penname</label>
-                    <input type="text" name="penname" class="w-full border-2 p-2 rounded-lg" placeholder="your penname" required>
-                </div>
+            <div class="mb-4">
+                <label for="penname" class="block font-semibold text-sm mb-1">Penname</label>
+                <input type="text" id="penname" name="penname" value="{{ old('penname', null) }}" 
+                    class="w-full p-2 border rounded-lg @error('penname') border-red-600 @else border-gray-300 @enderror">
+                @error('penname')
+                    <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
+                @enderror
+            </div>
 
                 <div>
                     <label class="block mb-2 font-bold">Genre:</label>
@@ -27,10 +38,13 @@
                 </select>
 
                 </div>
-                <div>
-                    <label class="block font-semibold">Outline / Summary</label>
-                    <textarea name="outline" rows="5" class="w-full border-2 p-2 rounded-lg" placeholder="your project outline or summary..."></textarea>
-                </div>
+                <div class="mb-4">
+                <label for="outline" class="block font-semibold text-sm mb-1">Outline / Summary</label>
+                <textarea id="outline" name="outline" rows="5" class="w-full border p-2 rounded-lg @error('outline') border-red-600 @else border-gray-300 @enderror" placeholder="your project outline or summary...">{{ old('outline', null) }}</textarea>
+                @error('outline')
+                    <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
+                @enderror
+            </div>
 
                 <div class="flex justify-end space-x-4 pt-4">
                     <a href="{{ route('projects.index') }}" class="px-6 py-2 bg-gray-200 rounded-lg">Cancel</a>

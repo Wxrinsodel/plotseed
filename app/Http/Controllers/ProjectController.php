@@ -20,16 +20,22 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required',
-            'penname' => 'required',
-            'genre' => 'required',
-            'outline' => 'nullable',
+        $data = $request->validate([
+            'title'   => ['required', 'string'],
+            'penname' => ['required', 'string'],
+            'genre'   => ['required', 'string'],
+            'outline' => ['nullable', 'string'],
         ]);
 
-        $validated['user_id'] = 1; 
+        $data['user_id'] = 1; 
 
-        Project::create($validated);
+        Project::create([
+            'title'   => $data['title'],
+            'penname' => $data['penname'],
+            'genre'   => $data['genre'],
+            'outline' => $data['outline'],
+            'user_id' => $data['user_id'],
+        ]);
 
         return redirect()->route('projects.index');
     }
@@ -49,8 +55,13 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $project = Project::find($id);
-        
-        $data = $request->all();
+
+        $data = $request->validate([
+            'title'   => ['required', 'string'],
+            'penname' => ['required', 'string'],
+            'genre'   => ['required', 'string'],
+            'outline' => ['nullable', 'string'],
+        ]);
 
         $project->update([
             'title'   => $data['title'],
@@ -61,7 +72,6 @@ class ProjectController extends Controller
 
         return redirect()->route('projects.show', $project->id);
     }
-
     public function destroy($id)
     {
         $project = \App\Models\Project::find($id);
