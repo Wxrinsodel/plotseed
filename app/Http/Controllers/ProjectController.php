@@ -61,4 +61,13 @@ class ProjectController extends Controller
 
         return redirect()->route('projects.show', $project->id);
     }
+
+    public function destroy($id)
+    {
+        $project = \App\Models\Project::find($id);
+
+        $project->delete();
+
+        return redirect()->route('projects.index');
+    }
 }
