@@ -1,14 +1,12 @@
 <x-site-layout :title="$project->title">
-    <div class="max-w-6xl mx-auto p-6">
+    <div class="max-w-7xl mx-auto p-6">
         
         <div class="mb-6 flex justify-between items-center">
-            
             <a href="{{ route('projects.index') }}" class="text-gray-500 hover:text-blue-600 font-medium flex items-center transition">
                 &larr; Back to all projects
             </a>
             
             <div class="flex items-center space-x-3">
-                
                 <a href="{{ route('projects.edit', $project->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition inline-flex items-center justify-center">
                     Edit
                 </a>
@@ -20,15 +18,12 @@
                         Delete
                     </button>
                 </form>
-
             </div>
         </div>
 
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <div class="lg:col-span-2 space-y-8">
+            <div class="md:col-span-2 space-y-8">
                 
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                     <div class="mb-4">
@@ -44,20 +39,20 @@
                     
                     <h2 class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">Outline / Summary</h2>
                     <p class="text-gray-700 leading-relaxed whitespace-pre-line">
-                        {{ $project->outline ?? 'There is no outline for this project yet.' }}
+                        {{ $project->outline ?? 'No outline provided yet.' }}
                     </p>
                 </div>
 
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">Workspace</h2>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <a href="#" class="group block bg-indigo-50 border border-indigo-100 p-6 rounded-xl text-center hover:bg-indigo-500 hover:border-indigo-500 transition duration-300 shadow-sm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a href="{{ route('projects.sequence', $project->id) }}" class="group block bg-indigo-50 border border-indigo-100 p-6 rounded-xl text-center hover:bg-indigo-500 hover:border-indigo-500 transition duration-300 shadow-sm">
                             <h3 class="text-xl font-bold text-indigo-700 group-hover:text-white transition">Sequence</h3>
-                            <p class="text-sm text-indigo-500 mt-2 group-hover:text-indigo-100 transition">Manage story sequence</p>
+                            <p class="text-sm text-indigo-500 mt-2 group-hover:text-indigo-100 transition">Manage sequence of events</p>
                         </a>
                         
-                        <a href="#" class="group block bg-emerald-50 border border-emerald-100 p-6 rounded-xl text-center hover:bg-emerald-500 hover:border-emerald-500 transition duration-300 shadow-sm">
+                        <a href="{{ route('projects.board', $project->id) }}" class="group block bg-emerald-50 border border-emerald-100 p-6 rounded-xl text-center hover:bg-emerald-500 hover:border-emerald-500 transition duration-300 shadow-sm">
                             <h3 class="text-xl font-bold text-emerald-700 group-hover:text-white transition">Board</h3>
                             <p class="text-sm text-emerald-500 mt-2 group-hover:text-emerald-100 transition">Mind mapping board</p>
                         </a>
@@ -66,7 +61,7 @@
 
             </div>
 
-            <div class="space-y-8">
+            <div class="md:col-span-1 space-y-8">
                 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-full">
                     <div class="flex justify-between items-center mb-6 border-b pb-3">
@@ -94,7 +89,7 @@
                         </ul>
                     @else
                         <div class="text-center py-10 text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                            <p class="text-sm">There are no characters in this project yet.</p>
+                            <p class="text-sm">No characters in this project yet.</p>
                             <p class="text-xs mt-1">Click "+ Add" to create a new character.</p>
                         </div>
                     @endif

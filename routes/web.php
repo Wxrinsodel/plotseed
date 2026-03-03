@@ -16,6 +16,11 @@ Route::get('projects/{id}', [\App\Http\Controllers\ProjectController::class, 'sh
 Route::get('projects/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'edit'])->name('projects.edit');
 Route::put('projects/{id}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('projects.update');
 Route::delete('projects/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('projects.destroy');
+
+Route::get('projects/{id}/sequence', [\App\Http\Controllers\ProjectController::class, 'sequence'])->name('projects.sequence');
+Route::get('projects/{id}/board', [\App\Http\Controllers\ProjectController::class, 'board'])->name('projects.board');
+
+
 /*
  * User zone routes
  */

@@ -81,4 +81,16 @@ class ProjectController extends Controller
 
         return redirect()->route('projects.index');
     }
+
+    public function sequence($id)
+    {
+        $project = \App\Models\Project::findOrFail($id);
+        return view('projects.sequence', ['project' => $project]);
+    }
+
+    public function board($id)
+    {
+        $project = \App\Models\Project::findOrFail($id);
+        return view('projects.board', ['project' => $project]);
+    }
 }
