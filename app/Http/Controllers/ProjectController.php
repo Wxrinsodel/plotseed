@@ -9,7 +9,8 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::latest()->get(); 
+        $projects = Project::orderBy('updated_at', 'desc')->get(); 
+        
         return view('projects.index', ['projects' => $projects]);
     }
 
@@ -70,7 +71,7 @@ class ProjectController extends Controller
             'outline' => $data['outline'],
         ]);
 
-        return redirect()->route('projects.show', $project->id);
+        return redirect()->route('projects.index');
     }
     public function destroy($id)
     {
