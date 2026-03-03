@@ -54,7 +54,7 @@
                         
                         <a href="{{ route('projects.board', $project->id) }}" class="group block bg-emerald-50 border border-emerald-100 p-6 rounded-xl text-center hover:bg-emerald-500 hover:border-emerald-500 transition duration-300 shadow-sm">
                             <h3 class="text-xl font-bold text-emerald-700 group-hover:text-white transition">Board</h3>
-                            <p class="text-sm text-emerald-500 mt-2 group-hover:text-emerald-100 transition">Mind mapping board</p>
+                            <p class="text-sm text-emerald-500 mt-2 group-hover:text-emerald-100 transition">Manage project board</p>
                         </a>
                     </div>
                 </div>
@@ -80,20 +80,16 @@
                                             <p class="font-bold text-gray-900 text-lg">{{ $character->name }}</p>
                                             <p class="text-sm text-blue-600 font-medium">{{ $character->role }}</p>
                                         </div>
-                                        <a href="#" class="text-gray-400 hover:text-blue-500">
+                                        <a href="{{ route('characters.index') }}" class="text-gray-400 hover:text-blue-500">
                                             <span class="text-xs font-semibold underline">View</span>
                                         </a>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+                                    </div> </li> @endforeach </ul>
                     @else
                         <div class="text-center py-10 text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
                             <p class="text-sm">No characters in this project yet.</p>
                             <p class="text-xs mt-1">Click "+ Add" to create a new character.</p>
                         </div>
                     @endif
-                </div>
 
             </div>
             

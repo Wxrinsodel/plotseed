@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
  * Public routes
  */
 
+Route::get('characters', [\App\Http\Controllers\CharacterController::class, 'index'])->name('characters.index');;
+
 Route::get('/', \App\Http\Controllers\WelcomeController::class)->name('home');
 Route::get('projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
 Route::get('projects/create', [\App\Http\Controllers\ProjectController::class, 'create'])->name('projects.create');
