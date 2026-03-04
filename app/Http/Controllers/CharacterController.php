@@ -30,10 +30,17 @@ class CharacterController extends Controller
         ]);
 
         $data['user_id'] = 1;
-        
+
         Character::create($data);
 
         return redirect()->route('characters.index');
+    }
+
+    public function show($id)
+    {
+        $character = \App\Models\Character::findOrFail($id);
+        
+        return view('characters.show', ['character' => $character]);
     }
 
     public function edit($id)

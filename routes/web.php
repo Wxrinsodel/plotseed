@@ -13,6 +13,7 @@ Route::get('characters', [\App\Http\Controllers\CharacterController::class, 'ind
 Route::get('projects/characters/create', [\App\Http\Controllers\CharacterController::class, 'create'])->name('characters.create');
 Route::post('projects/characters', [\App\Http\Controllers\CharacterController::class, 'store'])->name('characters.store');
 
+Route::get('projects/characters/{character}', [\App\Http\Controllers\CharacterController::class, 'show'])->name('characters.show');
 Route::get('projects/characters/{character}/edit', [\App\Http\Controllers\CharacterController::class, 'edit'])->name('characters.edit');
 Route::put('projects/characters/{character}', [\App\Http\Controllers\CharacterController::class, 'update'])->name('characters.update');
 Route::delete('projects/characters/{character}', [\App\Http\Controllers\CharacterController::class, 'destroy'])->name('characters.destroy');

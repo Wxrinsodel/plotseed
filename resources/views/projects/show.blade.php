@@ -80,10 +80,13 @@
                                             <p class="font-bold text-gray-900 text-lg">{{ $character->name }}</p>
                                             <p class="text-sm text-blue-600 font-medium">{{ $character->role }}</p>
                                         </div>
-                                        <a href="{{ route('characters.index') }}" class="text-gray-400 hover:text-blue-500">
+                                        <a href="{{ route('characters.show', $character->id) }}" class="text-gray-400 hover:text-blue-500">
                                             <span class="text-xs font-semibold underline">View</span>
                                         </a>
-                                    </div> </li> @endforeach </ul>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
                     @else
                         <div class="text-center py-10 text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
                             <p class="text-sm">No characters in this project yet.</p>
