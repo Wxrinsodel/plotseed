@@ -10,13 +10,13 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach($characters as $character)
-                <div class="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-                    <h3 class="font-bold text-xl text-gray-800">{{ $character->name }}</h3>
-                    <p class="text-sm text-blue-600 font-medium mt-1">{{ $character->role }}</p>
+                <a href="{{ route('characters.edit', $character->id) }}" class="block bg-white border border-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-300 transition group">
+                    <h3 class="font-bold text-xl text-gray-800 group-hover:text-blue-600 transition">{{ $character->name }}</h3>
+                    <p class="text-sm text-blue-600 font-medium mt-1">{{ $character->role ?? 'No Role' }}</p>
                     <p class="text-gray-600 text-sm mt-3 line-clamp-3">
                         {{ $character->description ?? 'No description yet.' }}
                     </p>
-                </div>
+                </a>
             @endforeach
         </div>
 

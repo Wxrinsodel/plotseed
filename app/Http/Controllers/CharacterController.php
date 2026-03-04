@@ -33,4 +33,36 @@ class CharacterController extends Controller
 
         return redirect()->route('characters.index');
     }
+
+    public function edit($id)
+    {
+        $character = Character::findOrFail($id);
+        return view('characters.edit', ['character' => $character]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $character = Character::findOrFail($id);
+
+        $data = $request->validate([
+            'name'        => ['required', 'string', 'max:255'],
+            'role'        => ['nullable', 'string'],
+            'identity'    => ['nullable', 'string'],
+            'background'  => ['nullable', 'string'],
+            'development' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $character->update($data);
+
+        return redirect()->route('characters.index');
+    }
+
+    public function destroy($id)
+    {
+        $character = Character::findOrFail($id);
+        $character->delete();
+
+        return redirect()->route('characters.index');
+    }
 }
