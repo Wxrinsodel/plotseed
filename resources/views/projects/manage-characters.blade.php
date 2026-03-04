@@ -7,7 +7,7 @@
 
         <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
             <h1 class="text-2xl font-bold text-gray-900 mb-2">Manage Characters</h1>
-            <p class="text-gray-600 mb-6 border-b pb-4">เลือกตัวละครที่คุณต้องการให้ปรากฏในนิยายเรื่อง <span class="font-semibold text-blue-600">{{ $project->title }}</span></p>
+            <p class="text-gray-600 mb-6 border-b pb-4">choose characters for <span class="font-semibold text-blue-600">{{ $project->title }}</span></p>
             
             <form action="{{ route('projects.characters.update', $project->id) }}" method="POST">
                 @csrf
@@ -26,7 +26,7 @@
                                 </span>
                             </label>
                         @empty
-                            <p class="text-sm text-gray-500 col-span-full text-center py-4">ยังไม่มีตัวละครในระบบ กรุณาสร้างตัวละครก่อน</p>
+                            <p class="text-sm text-gray-500 col-span-full text-center py-4">No characters available. Please create characters first.</p>
                         @endforelse
                     </div>
                 </div>

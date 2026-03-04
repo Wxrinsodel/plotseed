@@ -16,5 +16,10 @@ class Project extends Model
         
         return $this->belongsToMany(Character::class);
     }
+    
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
     //
 }
