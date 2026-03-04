@@ -10,8 +10,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::orderBy('updated_at', 'desc')->get(); 
-        
+        $projects = Project::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get();
         return view('projects.index', ['projects' => $projects]);
     }
 
@@ -44,12 +43,21 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::find($id);
+
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to edit this project.');
+        }
         return view('projects.show', ['project' => $project]);
     }
 
     public function edit($id)
     {
         $project = Project::findOrFail($id);
+
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to edit this project.');
+        }
+
         $characters = \App\Models\Character::orderBy('name')->get();
         return view('projects.edit', ['project' => $project, 'characters' => $characters]);
     }
@@ -57,6 +65,10 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $project = Project::findOrFail($id);
+
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to edit this project.');
+        }
 
         $data = $request->validate([
             'title'      => ['required', 'string'],
@@ -78,6 +90,10 @@ class ProjectController extends Controller
     {
         $project = \App\Models\Project::find($id);
 
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to edit this project.');
+        }
+
         $project->delete();
 
         return redirect()->route('projects.index');
@@ -86,12 +102,22 @@ class ProjectController extends Controller
     public function sequence($id)
     {
         $project = \App\Models\Project::findOrFail($id);
+
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to edit this project.');
+        }
+        
         return view('projects.sequence', ['project' => $project]);
     }
 
     public function board($id)
     {
         $project = \App\Models\Project::findOrFail($id);
+
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to edit this project.');
+        }
+        
         return view('projects.board', ['project' => $project]);
     }
 
@@ -99,6 +125,11 @@ class ProjectController extends Controller
     public function manageCharacters($id)
     {
         $project = Project::findOrFail($id);
+
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to edit this project.');
+        }
+
         $characters = \App\Models\Character::orderBy('name')->get();
         
         return view('projects.manage-characters', [
@@ -111,6 +142,10 @@ class ProjectController extends Controller
     public function updateCharacters(Request $request, $id)
     {
         $project = Project::findOrFail($id);
+
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to edit this project.');
+        }
 
         $data = $request->validate([
             'characters' => ['nullable', 'array'],

@@ -21,6 +21,7 @@ Route::get('/', function () {
 * User Zone Routes
 
 */
+
 Route::middleware(['auth'])->group(function () {
 
     // --- Dashboard ---

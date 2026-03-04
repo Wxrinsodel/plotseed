@@ -9,7 +9,7 @@ class CharacterController extends Controller
 {
     public function index()
     {
-        $characters = Character::orderBy('created_at', 'desc')->get();
+        $characters = Character::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get();
         return view('characters.index', ['characters' => $characters]);
     }
 
@@ -39,6 +39,11 @@ class CharacterController extends Controller
     public function show($id)
     {
         $character = \App\Models\Character::findOrFail($id);
+
+        if ($character->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to view this character.');
+        }
+
         
         return view('characters.show', ['character' => $character]);
     }
@@ -46,12 +51,22 @@ class CharacterController extends Controller
     public function edit($id)
     {
         $character = Character::findOrFail($id);
+
+        if ($character->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to view this character.');
+        }
+
         return view('characters.edit', ['character' => $character]);
     }
 
     public function update(Request $request, $id)
     {
         $character = Character::findOrFail($id);
+
+        if ($character->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to view this character.');
+        }
+
 
         $data = $request->validate([
             'name'        => ['required', 'string', 'max:255'],
@@ -70,6 +85,11 @@ class CharacterController extends Controller
     public function destroy($id)
     {
         $character = Character::findOrFail($id);
+
+        if ($character->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to view this character.');
+        }
+        
         $character->delete();
 
         return redirect()->route('characters.index');
