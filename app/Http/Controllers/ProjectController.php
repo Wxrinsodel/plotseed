@@ -17,27 +17,28 @@ class ProjectController extends Controller
 
     public function create()
     {
-        return view('projects.create');
+        $characters = \App\Models\Character::orderBy('name')->get();
+        return view('projects.create', ['characters' => $characters]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title'   => ['required', 'string'],
-            'penname' => ['required', 'string'],
-            'genre'   => ['required', 'string'],
-            'outline' => ['nullable', 'string'],
+            'title'      => ['required', 'string'],
+            'penname'    => ['required', 'string'],
+            'genre'      => ['required', 'string'],
+            'sub_genre'  => ['nullable', 'string'],
+            'outline'    => ['nullable', 'string'],
+            'characters' => ['nullable', 'array'], // <--- 1. รับค่า Array ของตัวละครที่ติ๊กมา
         ]);
 
         $data['user_id'] = 1; 
 
-        Project::create([
-            'title'   => $data['title'],
-            'penname' => $data['penname'],
-            'genre'   => $data['genre'],
-            'outline' => $data['outline'],
-            'user_id' => $data['user_id'],
-        ]);
+        // 2. สร้างโปรเจกต์และเก็บตัวแปรไว้
+        $project = Project::create($data);
+
+        // 3. ท่าไม้ตายอาจารย์: ผูกตัวละครเข้ากับโปรเจกต์นี้
+        $project->characters()->sync($data['characters'] ?? []);
 
         return redirect()->route('projects.index');
     }
@@ -50,30 +51,31 @@ class ProjectController extends Controller
 
     public function edit($id)
     {
-        $project = Project::find($id);
-        return view('projects.edit', ['project' => $project]);
+        $project = Project::findOrFail($id);
+        $characters = \App\Models\Character::orderBy('name')->get();
+        return view('projects.edit', ['project' => $project, 'characters' => $characters]);
     }
 
     public function update(Request $request, $id)
     {
-        $project = Project::find($id);
+        $project = Project::findOrFail($id);
 
         $data = $request->validate([
-            'title'   => ['required', 'string'],
-            'penname' => ['required', 'string'],
-            'genre'   => ['required', 'string'],
-            'outline' => ['nullable', 'string'],
+            'title'      => ['required', 'string'],
+            'penname'    => ['required', 'string'],
+            'genre'      => ['required', 'string'],
+            'sub_genre'  => ['nullable', 'string'],
+            'outline'    => ['nullable', 'string'],
+            'characters' => ['nullable', 'array'],
         ]);
 
-        $project->update([
-            'title'   => $data['title'],
-            'penname' => $data['penname'],
-            'genre'   => $data['genre'],
-            'outline' => $data['outline'],
-        ]);
+        $project->update($data);
 
-        return redirect()->route('projects.index');
+        $project->characters()->sync($data['characters'] ?? []);
+
+        return redirect()->route('projects.show', $project->id);
     }
+
     public function destroy($id)
     {
         $project = \App\Models\Project::find($id);
@@ -93,5 +95,33 @@ class ProjectController extends Controller
     {
         $project = \App\Models\Project::findOrFail($id);
         return view('projects.board', ['project' => $project]);
+    }
+
+
+    public function manageCharacters($id)
+    {
+        $project = Project::findOrFail($id);
+        $characters = \App\Models\Character::orderBy('name')->get();
+        
+        return view('projects.manage-characters', [
+            'project' => $project, 
+            'characters' => $characters
+        ]);
+    }
+
+    
+    public function updateCharacters(Request $request, $id)
+    {
+        $project = Project::findOrFail($id);
+
+        $data = $request->validate([
+            'characters' => ['nullable', 'array'],
+        ]);
+
+        
+        $project->characters()->sync($data['characters'] ?? []);
+
+    
+        return redirect()->route('projects.show', $project->id);
     }
 }

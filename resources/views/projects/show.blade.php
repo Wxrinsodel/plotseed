@@ -66,9 +66,9 @@
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-full">
                     <div class="flex justify-between items-center mb-6 border-b pb-3">
                         <h2 class="text-xl font-bold text-gray-800">Characters</h2>
-                        <a href="#" class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-lg hover:bg-gray-200 transition font-medium">
-                            + Add
-                        </a>
+                            <a href="{{ route('projects.characters.manage', $project->id) }}" class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-lg hover:bg-gray-200 transition font-medium">
+                                + Add / Manage
+                            </a>
                     </div>
                     
                     @if($project->characters && $project->characters->count() > 0)

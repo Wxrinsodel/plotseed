@@ -26,6 +26,9 @@ Route::get('projects', [\App\Http\Controllers\ProjectController::class, 'index']
 Route::get('projects/create', [\App\Http\Controllers\ProjectController::class, 'create'])->name('projects.create');
 Route::post('projects', [\App\Http\Controllers\ProjectController::class, 'store'])->name('projects.store');
 
+Route::get('projects/{project}/manage-characters', [\App\Http\Controllers\ProjectController::class, 'manageCharacters'])->name('projects.characters.manage');
+Route::put('projects/{project}/manage-characters', [\App\Http\Controllers\ProjectController::class, 'updateCharacters'])->name('projects.characters.update');
+
 Route::get('projects/{id}', [\App\Http\Controllers\ProjectController::class, 'show'])->name('projects.show');
 Route::get('projects/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'edit'])->name('projects.edit');
 Route::put('projects/{id}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('projects.update');

@@ -37,6 +37,9 @@
                     <option value="Thriller">Thriller</option>
                 </select>
 
+
+                
+
                 </div>
                 <div class="mb-4">
                 <label for="outline" class="block font-semibold text-sm mb-1">Outline / Summary</label>

@@ -43,6 +43,8 @@
                 @enderror
             </div>
 
+
+
             <div class="mb-6">
                 <label for="outline" class="block font-semibold text-sm mb-1">Outline / Summary</label>
                 <textarea id="outline" name="outline" rows="4" 
