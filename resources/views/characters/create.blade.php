@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="mb-6">
-                    <label for="role" class="block font-semibold text-sm mb-1 text-gray-800">Role (บทบาท)</label>
+                    <label for="role" class="block font-semibold text-sm mb-1 text-gray-800">Role</label>
                     <select id="role" name="role" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-700">
                         <option value="">-- Can add later --</option>
                         <option value="Protagonist">Protagonist</option>

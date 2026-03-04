@@ -29,7 +29,7 @@ class CharacterController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
-        $data['user_id'] = 1;
+        $data['user_id'] = auth()->id();
 
         Character::create($data);
 

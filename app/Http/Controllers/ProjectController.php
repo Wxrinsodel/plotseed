@@ -29,15 +29,13 @@ class ProjectController extends Controller
             'genre'      => ['required', 'string'],
             'sub_genre'  => ['nullable', 'string'],
             'outline'    => ['nullable', 'string'],
-            'characters' => ['nullable', 'array'], // <--- 1. รับค่า Array ของตัวละครที่ติ๊กมา
+            'characters' => ['nullable', 'array'],
         ]);
 
-        $data['user_id'] = 1; 
+        $data['user_id'] = auth()->id();
 
-        // 2. สร้างโปรเจกต์และเก็บตัวแปรไว้
         $project = Project::create($data);
 
-        // 3. ท่าไม้ตายอาจารย์: ผูกตัวละครเข้ากับโปรเจกต์นี้
         $project->characters()->sync($data['characters'] ?? []);
 
         return redirect()->route('projects.index');

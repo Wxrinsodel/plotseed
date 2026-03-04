@@ -1,55 +1,75 @@
 <?php
 
-use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\CharacterController;
+
+/*
+
+* Public routes
+
+*/
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
 
 /*
- * Public routes
- */
 
-Route::get('characters', [\App\Http\Controllers\CharacterController::class, 'index'])->name('characters.index');;
+* User Zone Routes
 
-Route::get('projects/characters/create', [\App\Http\Controllers\CharacterController::class, 'create'])->name('characters.create');
-Route::post('projects/characters', [\App\Http\Controllers\CharacterController::class, 'store'])->name('characters.store');
+*/
+Route::middleware(['auth'])->group(function () {
 
-Route::get('projects/characters/{character}', [\App\Http\Controllers\CharacterController::class, 'show'])->name('characters.show');
-Route::get('projects/characters/{character}/edit', [\App\Http\Controllers\CharacterController::class, 'edit'])->name('characters.edit');
-Route::put('projects/characters/{character}', [\App\Http\Controllers\CharacterController::class, 'update'])->name('characters.update');
-Route::delete('projects/characters/{character}', [\App\Http\Controllers\CharacterController::class, 'destroy'])->name('characters.destroy');
+    // --- Dashboard ---
+    Route::get('dashboard', [DashboardController::class, '__invoke'])
+        ->middleware(['verified'])
+        ->name('dashboard');
 
+    // --- Project ---
+    Route::prefix('projects')->name('projects.')->group(function () {
+        
+        Route::get('/', [ProjectController::class, 'index'])->name('index');
+        Route::get('/create', [ProjectController::class, 'create'])->name('create');
+        Route::post('/', [ProjectController::class, 'store'])->name('store');
+        
+        // manage characters in project
+        Route::get('/{project}/manage-characters', [ProjectController::class, 'manageCharacters'])->name('characters.manage');
+        Route::put('/{project}/manage-characters', [ProjectController::class, 'updateCharacters'])->name('characters.update');
 
+        // Workspace (Sequence & Board)
+        Route::get('/{project}/sequence', [ProjectController::class, 'sequence'])->name('sequence');
+        Route::get('/{project}/board', [ProjectController::class, 'board'])->name('board');
 
-Route::get('/', \App\Http\Controllers\WelcomeController::class)->name('home');
+        // CRUD
+        Route::get('/{project}', [ProjectController::class, 'show'])->name('show');
+        Route::get('/{project}/edit', [ProjectController::class, 'edit'])->name('edit');
+        Route::put('/{project}', [ProjectController::class, 'update'])->name('update');
+        Route::delete('/{project}', [ProjectController::class, 'destroy'])->name('destroy');
+        
+    });
 
-Route::get('projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
-Route::get('projects/create', [\App\Http\Controllers\ProjectController::class, 'create'])->name('projects.create');
-Route::post('projects', [\App\Http\Controllers\ProjectController::class, 'store'])->name('projects.store');
+    // --- Character ---
+    Route::prefix('characters')->name('characters.')->group(function () {
+        
+        Route::get('/', [CharacterController::class, 'index'])->name('index');
+        Route::get('/create', [CharacterController::class, 'create'])->name('create');
+        Route::post('/', [CharacterController::class, 'store'])->name('store');
+        
+        Route::get('/{character}', [CharacterController::class, 'show'])->name('show');
+        Route::get('/{character}/edit', [CharacterController::class, 'edit'])->name('edit');
+        Route::put('/{character}', [CharacterController::class, 'update'])->name('update');
+        Route::delete('/{character}', [CharacterController::class, 'destroy'])->name('destroy');
+        
+    });
 
-Route::get('projects/{project}/manage-characters', [\App\Http\Controllers\ProjectController::class, 'manageCharacters'])->name('projects.characters.manage');
-Route::put('projects/{project}/manage-characters', [\App\Http\Controllers\ProjectController::class, 'updateCharacters'])->name('projects.characters.update');
-
-Route::get('projects/{id}', [\App\Http\Controllers\ProjectController::class, 'show'])->name('projects.show');
-Route::get('projects/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'edit'])->name('projects.edit');
-Route::put('projects/{id}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('projects.update');
-Route::delete('projects/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('projects.destroy');
-
-Route::get('projects/{id}/sequence', [\App\Http\Controllers\ProjectController::class, 'sequence'])->name('projects.sequence');
-Route::get('projects/{id}/board', [\App\Http\Controllers\ProjectController::class, 'board'])->name('projects.board');
-
+});
 
 /*
- * User zone routes
- */
 
-Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+* Settings / Admin Zone
 
-
+*/
 require __DIR__.'/settings.php';
-
-
-/*
- * Admin zone routes
- */
