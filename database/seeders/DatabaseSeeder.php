@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Character;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::create([
+            'name' => 'PIN',
+            'email' => 'admin@plotseed.test',
+            'password' => Hash::make('password123'),
+        ]);
+
+    
         $projects = Project::factory(10)->create();
         
         $characters = Character::factory(30)->create();
