@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('characters', [\App\Http\Controllers\CharacterController::class, 'index'])->name('characters.index');;
 
+Route::get('projects/characters/create', [\App\Http\Controllers\CharacterController::class, 'create'])->name('characters.create');
+Route::post('projects/characters', [\App\Http\Controllers\CharacterController::class, 'store'])->name('characters.store');
+
 Route::get('/', \App\Http\Controllers\WelcomeController::class)->name('home');
 Route::get('projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
 Route::get('projects/create', [\App\Http\Controllers\ProjectController::class, 'create'])->name('projects.create');

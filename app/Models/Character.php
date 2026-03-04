@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Character extends Model
 {
-    /** @use HasFactory<\Database\Factories\CharacterFactory> */
     use HasFactory;
 
-    public function project()
-    {
-        return $this->belongsToMany(Project::class);
-    }
+    protected $fillable = [
+        'name', 
+        'role', 
+        'identity', 
+        'background', 
+        'development', 
+        'description'
+    ];
 }

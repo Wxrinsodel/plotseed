@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('characters', function (Blueprint $table) {
             $table->id();
-
-            #$table->foreignId('project_id'); 
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->string('role')->nullable();
-
+            $table->string('role') ->nullable();
+            $table->text('identity')->nullable();
+            $table->text('background')->nullable();
+            $table->text('development')->nullable();
             $table->timestamps();
         });
     }
