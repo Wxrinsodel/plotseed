@@ -29,6 +29,8 @@ class CharacterController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
+        $data['user_id'] = 1;
+        
         Character::create($data);
 
         return redirect()->route('characters.index');

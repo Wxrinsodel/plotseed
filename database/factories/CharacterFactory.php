@@ -17,8 +17,13 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => 1,
             'name' => fake()->name(),
-            'role' => fake()->jobTitle(),
+            'role' => fake()->randomElement(['Protagonist', 'Antagonist', 'Supporting', 'Extra']),
+            'identity'    => fake()->sentence(),
+            'background'  => fake()->paragraph(),
+            'development' => fake()->paragraph(),
+            'description' => fake()->paragraph()
         ];
     }
 }

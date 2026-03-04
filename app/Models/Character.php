@@ -15,6 +15,7 @@ class Character extends Model
         'identity', 
         'background', 
         'development', 
-        'description'
+        'description',
+        'user_id'
     ];
 }
