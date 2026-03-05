@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'penname', 'genre', 'outline', 'user_id'];
+    protected $guarded = [];
 
     public function characters()
     {
