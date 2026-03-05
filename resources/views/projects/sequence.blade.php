@@ -6,7 +6,7 @@
                 <h1 class="text-3xl font-extrabold text-gray-900">Sequence Editor</h1>
                 <p class="text-gray-500 mt-1">Project: <span class="font-semibold">{{ $project->title }}</span></p>
             </div>
-            <a href="{{ route('projects.show', $project->id) }}" class="px-5 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition">
+            <a href="{{ route('projects.show', $project->id) }}" class="text-gray-500 hover:text-blue-600 font-medium px-5 py-2 rounded-lg transition">
                 &larr; Back to Manage
             </a>
         </div>

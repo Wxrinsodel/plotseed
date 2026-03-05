@@ -35,12 +35,18 @@
             </div>
 
             <div class="mb-4">
-                <label for="genre" class="block font-semibold text-sm mb-1">Genre</label>
-                <input type="text" id="genre" name="genre" value="{{ old('genre', $project->genre) }}" 
-                    class="w-full p-2 border rounded-lg focus:border-blue-500 @error('genre') border-red-600 @else border-gray-300 @enderror">
-                @error('genre')
-                    <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
-                @enderror
+                <label class="block mb-2 font-bold">Genre:</label>
+                    <select name="genre" id="genre" class="mt-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        <option value="" disabled {{ empty($project->genre) ? 'selected' : '' }}>-- Choose a genre --</option>
+                        <option value="Fictional" {{ old('genre', $project->genre) == 'Fictional' ? 'selected' : '' }}>Fictional</option>
+                        <option value="Fantasy" {{ old('genre', $project->genre) == 'Fantasy' ? 'selected' : '' }}>Fantasy</option>
+                        <option value="Romance" {{ old('genre', $project->genre) == 'Romance' ? 'selected' : '' }}>Romance</option>
+                        <option value="Sci-Fi" {{ old('genre', $project->genre) == 'Sci-Fi' ? 'selected' : '' }}>Sci-Fi</option>
+                        <option value="Horror" {{ old('genre', $project->genre) == 'Horror' ? 'selected' : '' }}>Horror</option>
+                        <option value="Thriller" {{ old('genre', $project->genre) == 'Thriller' ? 'selected' : '' }}>Action</option>
+                        <option value="Drama" {{ old('genre', $project->genre) == 'Drama' ? 'selected' : '' }}>Drama</option>
+                        <option value="Slice of Life" {{ old('genre', $project->genre) == 'Slice of Life' ? 'selected' : '' }}>Slice of Life</option>
+                    </select>
             </div>
 
 

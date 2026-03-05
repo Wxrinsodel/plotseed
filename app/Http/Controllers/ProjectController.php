@@ -16,7 +16,7 @@ class ProjectController extends Controller
 
     public function create()
     {
-        $characters = \App\Models\Character::orderBy('name')->get();
+         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('name')->get();
         return view('projects.create', ['characters' => $characters]);
     }
 
@@ -26,7 +26,6 @@ class ProjectController extends Controller
             'title'      => ['required', 'string'],
             'penname'    => ['required', 'string'],
             'genre'      => ['required', 'string'],
-            'sub_genre'  => ['nullable', 'string'],
             'outline'    => ['nullable', 'string'],
             'characters' => ['nullable', 'array'],
         ]);
@@ -58,7 +57,7 @@ class ProjectController extends Controller
             abort(403, 'Unauthorized action. You do not have permission to edit this project.');
         }
 
-        $characters = \App\Models\Character::orderBy('name')->get();
+         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('name')->get();
         return view('projects.edit', ['project' => $project, 'characters' => $characters]);
     }
 
@@ -74,7 +73,6 @@ class ProjectController extends Controller
             'title'      => ['required', 'string'],
             'penname'    => ['required', 'string'],
             'genre'      => ['required', 'string'],
-            'sub_genre'  => ['nullable', 'string'],
             'outline'    => ['nullable', 'string'],
             'characters' => ['nullable', 'array'],
         ]);
@@ -130,7 +128,7 @@ class ProjectController extends Controller
             abort(403, 'Unauthorized action. You do not have permission to edit this project.');
         }
 
-        $characters = \App\Models\Character::orderBy('name')->get();
+         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('name')->get();
         
         return view('projects.manage-characters', [
             'project' => $project, 

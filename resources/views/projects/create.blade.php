@@ -25,25 +25,24 @@
                 @enderror
             </div>
 
-                <div>
-                    <label class="block mb-2 font-bold">Genre:</label>
-
-                    <select name="genre" class="w-full border p-2 mb-4 rounded" required>
-                    <option value="" disabled selected>-- Choose a genre --</option>
-                    <option value="Fantasy">Fantasy</option>
-                    <option value="Romance">Romance</option>
-                    <option value="Sci-Fi">Sci-Fi</option>
-                    <option value="Horror">Horror</option>
-                    <option value="Thriller">Thriller</option>
-                </select>
-
-
-                
-
-                </div>
                 <div class="mb-4">
-                <label for="outline" class="block font-semibold text-sm mb-1">Outline / Summary</label>
-                <textarea id="outline" name="outline" rows="5" class="w-full border p-2 rounded-lg @error('outline') border-red-600 @else border-gray-300 @enderror" placeholder="your project outline or summary...">{{ old('outline', null) }}</textarea>
+                    <label class="block mb-2 font-bold">Genre:</label>
+                    <select name="genre" id="genre" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        <option value="" disabled selected>-- Choose a genre --</option>
+                        <option value="Fictional">Fictional</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Thriller">Action</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Slice of Life">Slice of Life</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="outline" class="block font-semibold text-sm mb-1">Outline / Summary</label>
+                    <textarea id="outline" name="outline" rows="5" class="w-full border p-2 rounded-lg @error('outline') border-red-600 @else border-gray-300 @enderror" placeholder="your project outline or summary...">{{ old('outline', null) }}</textarea>
                 @error('outline')
                     <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
                 @enderror
