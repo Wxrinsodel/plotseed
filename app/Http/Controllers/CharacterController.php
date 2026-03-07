@@ -33,6 +33,12 @@ class CharacterController extends Controller
 
         Character::create($data);
 
+        $character = Character::where('user_id', auth()->id())->latest()->first();
+
+        if ($request->hasFile('avatar')) {
+            $character->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+        }
+
         return redirect()->route('characters.index');
     }
 
@@ -78,6 +84,10 @@ class CharacterController extends Controller
         ]);
 
         $character->update($data);
+
+        if ($request->hasFile('avatar')) {
+            $character->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+        }
 
         return redirect()->route('characters.index');
     }

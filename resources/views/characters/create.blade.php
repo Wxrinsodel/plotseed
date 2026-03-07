@@ -1,14 +1,14 @@
 <x-site-layout title="Create Character">
     <div class="max-w-3xl mx-auto p-6 mt-8">
         
-        <div class="mb-6">
+        <div class="mb-6" >
             <a href="{{ route('characters.index') }}" class="text-gray-500 hover:text-blue-600 font-medium">&larr; Back to Characters</a>
         </div>
 
         <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
             <h1 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">Create New Character</h1>
             
-            <form action="{{ route('characters.store') }}" method="POST">
+            <form action="{{ route('characters.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <div class="mb-6">
@@ -53,6 +53,11 @@
                 <div class="flex justify-end gap-3 pt-4 border-t">
                     <a href="{{ route('characters.index') }}" class="px-5 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition">Cancel</a>
                     <button type="submit" class="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">Save Character</button>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block mb-2 font-bold">Character Avatar:</label>
+                    <input type="file" name="avatar" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
                 </div>
             </form>
         </div>

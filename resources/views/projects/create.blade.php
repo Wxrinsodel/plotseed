@@ -2,7 +2,7 @@
     <div class="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-xl">
         <h1 class="text-2xl font-bold mb-6 text-blue-900">Create a New Project</h1>
 
-        <form action="{{ route('projects.store') }}" method="POST">
+        <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf <div class="space-y-4">
                 <div>
                     <label class="block font-semibold">Project Title</label>
@@ -46,6 +46,11 @@
                 @error('outline')
                     <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
                 @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2 font-bold">Cover Image:</label>
+                <input type="file" name="cover_image" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
             </div>
 
                 <div class="flex justify-end space-x-4 pt-4">

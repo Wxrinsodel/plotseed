@@ -36,6 +36,10 @@ class ProjectController extends Controller
 
         $project->characters()->sync($data['characters'] ?? []);
 
+        if ($request->hasFile('cover_image')) {
+            $project->addMediaFromRequest('cover_image')->toMediaCollection('covers');
+        }
+
         return redirect()->route('projects.index');
     }
 
@@ -80,6 +84,11 @@ class ProjectController extends Controller
         $project->update($data);
 
         $project->characters()->sync($data['characters'] ?? []);
+
+        
+        if ($request->hasFile('cover_image')) {
+            $project->addMediaFromRequest('cover_image')->toMediaCollection('covers');
+        }
 
         return redirect()->route('projects.show', $project->id);
     }

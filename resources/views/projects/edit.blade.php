@@ -2,7 +2,7 @@
     <div class="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-xl mt-6">
         <h1 class="text-2xl font-bold mb-6 text-gray-800">Edit Project: {{ $project->title }}</h1>
 
-        <form action="{{ route('projects.update', $project->id) }}" method="POST">
+        <form action="{{ route('projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -60,6 +60,10 @@
                 @enderror
             </div>
 
+            <div class="mb-4">
+                <label class="block mb-2 font-bold">Cover Image:</label>
+                <input type="file" name="cover_image" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
+            </div>
             <div class="flex justify-end gap-3">
                 <a href="{{ route('projects.index') }}" class="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition">Cancel</a>
                 <button type="submit" class="bg-sky-800 text-sky-50 px-6 py-2 uppercase font-medium rounded-lg hover:bg-sky-900 transition shadow-sm">Update</button>

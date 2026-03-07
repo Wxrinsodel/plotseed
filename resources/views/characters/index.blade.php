@@ -28,6 +28,13 @@
                         </span>
                     </div>
 
+                    @if($character->hasMedia('avatars'))
+                        <img src="{{ $character->getFirstMediaUrl('avatars') }}" alt="Avatar" class="w-24 h-24 rounded-full object-cover shadow-md border-2 border-white">
+                    @else
+                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center shadow-md border-2 border-white">
+                            <span class="text-gray-400 text-xs font-bold">No Image</span>
+                        </div>
+                    @endif
        
                     <div class="space-y-4 mb-8 flex-grow">
                         
