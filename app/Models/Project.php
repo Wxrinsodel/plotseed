@@ -48,4 +48,9 @@ class Project extends Model implements HasMedia
             ->fit(Fit::Crop, 400, 600)
             ->nonQueued();
     }
+    
+    public function sequences()
+    {
+        return $this->hasMany(\App\Models\Sequence::class)->orderBy('order_num', 'asc');
+    }
 }

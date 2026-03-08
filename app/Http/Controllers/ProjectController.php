@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Character;
 use App\Models\Project;
+use App\Models\Sequence;
 use Illuminate\Http\Request;
+
 
 class ProjectController extends Controller
 {
@@ -84,7 +86,7 @@ class ProjectController extends Controller
             'outline'    => ['nullable', 'string'],
             'characters' => ['nullable', 'array'],
         ], [
-            
+
             'title.required'   => 'you need to fill in the title name',
             'penname.required' => 'you need to fill in your penname',
             'genre.required'   => 'you need to choose your genre',
@@ -173,4 +175,58 @@ class ProjectController extends Controller
     
         return redirect()->route('projects.show', $project->id);
     }
+    
+    public function storeSequence(Request $request, $id)
+    {
+        $project = Project::findOrFail($id);
+
+        $data = $request->validate([
+            'chapter_no' => 'required|string',
+            'title'      => 'required|string',
+            'description'=> 'nullable|string',
+        ], [
+            'chapter_no.required' => 'Please enter Chapter No. (e.g., Chapter 1)',
+            'title.required'      => 'Please enter the event title',
+        ]);
+
+        // สร้าง Sequence ใหม่ผูกกับ Project นี้
+        $project->sequences()->create($data);
+
+        return redirect()->route('projects.sequence', $project->id);
+    }
+
+    // ฟังก์ชันสำหรับลบเหตุการณ์
+    public function destroySequence($id, $sequenceId)
+    {
+        $sequence = Sequence::where('project_id', $id)->findOrFail($sequenceId);
+        $sequence->delete();
+
+        return redirect()->back()->with('success', 'Event deleted successfully');
+    }
+
+    // ฟังก์ชันสำหรับหน้าแก้ไข (แบบง่าย)
+    public function editSequence($id, $sequenceId)
+    {
+        $project = Project::findOrFail($id);
+        $sequence = Sequence::where('project_id', $id)->findOrFail($sequenceId);
+        
+        return view('projects.edit-sequence', compact('project', 'sequence'));
+    }
+
+    // ฟังก์ชันสำหรับบันทึกการแก้ไข
+    public function updateSequence(Request $request, $id, $sequenceId)
+    {
+        $sequence = Sequence::where('project_id', $id)->findOrFail($sequenceId);
+
+        $data = $request->validate([
+            'chapter_no' => 'required|string',
+            'title'      => 'required|string',
+            'description'=> 'nullable|string',
+        ]);
+
+        $sequence->update($data);
+
+        return redirect()->route('projects.sequence', $id)->with('success', 'Event updated!');
+    }
+
 }

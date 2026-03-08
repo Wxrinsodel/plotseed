@@ -66,6 +66,11 @@ Route::middleware(['auth'])->group(function () {
         
     });
 
+    // --- Sequence ---
+    Route::post('/projects/{id}/sequence', [ProjectController::class, 'storeSequence'])->name('projects.sequence.store');
+    Route::get('/projects/{id}/sequence/{sequenceId}/edit', [ProjectController::class, 'editSequence'])->name('projects.sequence.edit');
+    Route::put('/projects/{id}/sequence/{sequenceId}', [ProjectController::class, 'updateSequence'])->name('projects.sequence.update');
+    Route::delete('/projects/{id}/sequence/{sequenceId}', [ProjectController::class, 'destroySequence'])->name('projects.sequence.destroy');
 });
 
 /*
