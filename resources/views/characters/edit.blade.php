@@ -4,7 +4,7 @@
         <div class="mb-6 flex justify-between items-center">
             <a href="{{ route('characters.index') }}" class="text-gray-500 hover:text-blue-600 font-medium">&larr; Back to Characters</a>
             
-            <form action="{{ route('characters.destroy', $character->id) }}" method="POST" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to delete this character?');" class="m-0">
+            <form action="{{ route('characters.destroy', $character->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this character?');" class="m-0">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="text-red-500 hover:text-red-700 font-medium underline text-sm transition">
@@ -16,9 +16,9 @@
         <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
             <h1 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">Edit Character: {{ $character->name }}</h1>
             
-            <form action="{{ route('characters.update', $character->id) }}" method="POST">
-                @csrf
-                @method('PUT')
+           <form action="{{ route('characters.update', $character->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
                 
                 <div class="mb-6">
                     <label for="name" class="block font-semibold text-sm mb-1 text-gray-800">Character Name <span class="text-red-500">*</span></label>
@@ -59,14 +59,14 @@
                     </div>
                 </div>
 
+                <div class="mb-6 border-t pt-6">
+                    <label class="block mb-2 font-bold text-gray-800">Character Avatar:</label>
+                    <input type="file" name="avatar" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2">
+                </div>
+
                 <div class="flex justify-end gap-3 pt-4 border-t">
                     <a href="{{ route('characters.index') }}" class="px-5 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition">Cancel</a>
                     <button type="submit" class="px-5 py-2.5 bg-yellow-500 text-white font-medium rounded-lg hover:bg-yellow-600 transition">Update Character</button>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold">Character Avatar:</label>
-                    <input type="file" name="avatar" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
                 </div>
             </form>
         </div>

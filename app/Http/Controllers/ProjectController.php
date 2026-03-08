@@ -87,6 +87,7 @@ class ProjectController extends Controller
 
         
         if ($request->hasFile('cover_image')) {
+            $project->clearMediaCollection('covers'); 
             $project->addMediaFromRequest('cover_image')->toMediaCollection('covers');
         }
 

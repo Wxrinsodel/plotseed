@@ -28,12 +28,7 @@
                         </span>
                     </div>
 
-                    @if($character->media->isEmpty())
-                        <img src="/img/defaults/Profile_icon.jpg" alt="Default Avatar" class="w-24 h-24 rounded-full object-cover shadow-md border-2 border-white">
-                    @else
-                        <img src="{{ $character->media->first()?->getUrl() }}" alt="Character Avatar" class="w-24 h-24 rounded-full object-cover shadow-md border-2 border-white">
-                    @endif
-                    
+                    <img src="{{ $character->avatarUrl('preview') }}" alt="Avatar" class="w-24 h-24 rounded-full object-cover shadow-md border-2 border-white">
                     <div class="space-y-4 mb-8 flex-grow">
                         
                         <div>

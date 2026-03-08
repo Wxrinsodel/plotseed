@@ -30,11 +30,7 @@
 
                     
                     <div class="mb-6 flex justify-center">
-                        @if($project->media->isEmpty())
-                            <img src="/img/defaults/book_icon.jpg" alt="Default Cover" class="w-32 h-auto object-cover rounded-lg shadow-md border border-gray-200">
-                        @else
-                            <img src="{{ $project->media->first()?->getUrl() }}" alt="Cover Image" class="w-32 h-auto object-cover rounded-lg shadow-md border border-gray-200">
-                        @endif
+                        <img src="{{ $project->coverUrl('preview') }}" alt="Cover" class="w-24 h-24 rounded-full object-cover shadow-md border-2 border-white">
                     </div>
                     
 

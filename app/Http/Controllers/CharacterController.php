@@ -86,8 +86,9 @@ class CharacterController extends Controller
         $character->update($data);
 
         if ($request->hasFile('avatar')) {
+            $character->clearMediaCollection('avatars'); 
             $character->addMediaFromRequest('avatar')->toMediaCollection('avatars');
-        }
+            }
 
         return redirect()->route('characters.index');
     }
