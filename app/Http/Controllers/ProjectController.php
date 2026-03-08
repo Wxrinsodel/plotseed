@@ -28,6 +28,10 @@ class ProjectController extends Controller
             'genre'      => ['required', 'string'],
             'outline'    => ['nullable', 'string'],
             'characters' => ['nullable', 'array'],
+        ], [
+            'title.required'   => 'you need to fill in the title name',
+            'penname.required' => 'you need to fill in your penname',
+            'genre.required'   => 'you need to choose your genre',
         ]);
 
         $data['user_id'] = auth()->id();
@@ -79,8 +83,12 @@ class ProjectController extends Controller
             'genre'      => ['required', 'string'],
             'outline'    => ['nullable', 'string'],
             'characters' => ['nullable', 'array'],
+        ], [
+            
+            'title.required'   => 'you need to fill in the title name',
+            'penname.required' => 'you need to fill in your penname',
+            'genre.required'   => 'you need to choose your genre',
         ]);
-
         $project->update($data);
 
         $project->characters()->sync($data['characters'] ?? []);

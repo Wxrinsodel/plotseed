@@ -22,11 +22,14 @@ class CharacterController extends Controller
     {
         $data = $request->validate([
             'name'        => ['required', 'string', 'max:255'],
-            'role'        => ['nullable', 'string'],
+            'role'        => ['required', 'string'],
             'identity'    => ['nullable', 'string'],
             'background'  => ['nullable', 'string'],
             'development' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
+        ], [
+            'name.required' => 'you need to fill in the character name',
+            'role.required' => 'you need to choose a role',
         ]);
 
         $data['user_id'] = auth()->id();
@@ -76,11 +79,14 @@ class CharacterController extends Controller
 
         $data = $request->validate([
             'name'        => ['required', 'string', 'max:255'],
-            'role'        => ['nullable', 'string'],
+            'role'        => ['required', 'string'],
             'identity'    => ['nullable', 'string'],
             'background'  => ['nullable', 'string'],
             'development' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
+        ], [
+            'name.required' => 'you need to fill in the character name',
+            'role.required' => 'you need to choose a role',
         ]);
 
         $character->update($data);

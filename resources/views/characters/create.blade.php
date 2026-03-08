@@ -13,19 +13,20 @@
                 
                 <div class="mb-6">
                     <label for="name" class="block font-semibold text-sm mb-1 text-gray-800">Character Name <span class="text-red-500">*</span></label>
-                    <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" value="{{ old('name') }}" required>
-                    @error('name') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
+                    <input type="text" id="name" name="name" value="{{ old('name', $character->name ?? '') }}" class="w-full p-2 border rounded-lg focus:border-blue-500 @error('name') border-red-500 @else border-gray-300 @enderror">
+                    @error('name') <div class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="mb-6">
-                    <label for="role" class="block font-semibold text-sm mb-1 text-gray-800">Role</label>
-                    <select id="role" name="role" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-700">
-                        <option value="">-- Can add later --</option>
-                        <option value="Protagonist">Protagonist</option>
-                        <option value="Antagonist">Antagonist</option>
-                        <option value="Supporting">Supporting</option>
-                        <option value="Extra">Extra</option>
+                    <label for="role" class="block font-semibold text-sm mb-1 text-gray-800">Role <span class="text-red-500">*</span></label>
+                    <select id="role" name="role" class="w-full p-2 border rounded-lg focus:border-blue-500 @error('role') border-red-500 @else border-gray-300 @enderror text-gray-700">
+                        <option value="" disabled {{ empty($character->role) ? 'selected' : '' }}>-- Choose a role --</option>
+                        <option value="Protagonist" {{ old('role', $character->role ?? '') == 'Protagonist' ? 'selected' : '' }}>Protagonist</option>
+                        <option value="Antagonist" {{ old('role', $character->role ?? '') == 'Antagonist' ? 'selected' : '' }}>Antagonist</option>
+                        <option value="Supporting" {{ old('role', $character->role ?? '') == 'Supporting' ? 'selected' : '' }}>Supporting</option>
+                        <option value="Extra" {{ old('role', $character->role ?? '') == 'Extra' ? 'selected' : '' }}>Extra</option>
                     </select>
+                    @error('role') <div class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="grid grid-cols-1 gap-6 mb-6">
