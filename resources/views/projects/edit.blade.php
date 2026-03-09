@@ -1,74 +1,124 @@
-<x-site-layout title="Edit Project">
-    <div class="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-xl mt-6">
-        <h1 class="text-2xl font-bold mb-6 text-gray-800">Edit Project: {{ $project->title }}</h1>
+<x-site-layout title="Edit Project - {{ $project->title }}">
+    <div class="max-w-5xl mx-auto p-6 mt-8">
+        
+        <div class="mb-8">
+            <h1 class="text-4xl font-black text-gray-900 tracking-tight uppercase">Edit Project: {{ $project->title }}</h1>
+            <p class="text-gray-500 font-medium mt-1">Update your universe's details.</p>
+        </div>
 
-        <form action="{{ route('projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+        <div class="bg-white p-8 sm:p-10 rounded-[2rem] shadow-sm border border-gray-100">
+            <form action="{{ route('projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT') 
 
-            @if ($errors->any())
-                <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
-                    <ul class="list-disc pl-5">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    
+                    <div class="md:col-span-1">
+                        <label class="block text-sm font-bold text-gray-700 uppercase tracking-widest mb-2">Cover Image</label>
+                        
+                        <div class="mt-1 flex justify-center px-6 pt-12 pb-12 border-2 border-gray-300 border-dashed rounded-3xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-300 relative group cursor-pointer overflow-hidden aspect-[2/3]" 
+                             id="drop-zone" 
+                             onclick="document.getElementById('cover_image').click()">
+                            
+                            <div class="space-y-2 text-center relative z-10 flex flex-col items-center justify-center h-full {{ $project->getFirstMediaUrl('covers') ? 'hidden' : '' }}" id="upload-content">
+                                <svg class="h-14 w-14 text-gray-400 group-hover:text-blue-500 transition-colors mb-2" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex flex-col text-sm text-gray-600 justify-center items-center">
+                                    <span class="font-bold text-blue-600 hover:text-blue-800">Change file</span>
+                                    <p class="mt-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500 font-medium mt-4">PNG, JPG up to 2MB</p>
+                            </div>
+                            
+                            <img id="image-preview" 
+                                 class="{{ $project->getFirstMediaUrl('covers') ? '' : 'hidden' }} absolute inset-0 w-full h-full object-cover rounded-3xl opacity-90 group-hover:opacity-100 transition-opacity z-0" 
+                                 src="{{ $project->getFirstMediaUrl('covers') }}" 
+                                 alt="Preview">
+
+                            <input id="cover_image" name="cover_image" type="file" class="sr-only" accept="image/*" onchange="previewImage(event)">
+                        </div>
+                        
+                        @error('cover_image')
+                            <p class="mt-2 text-red-500 text-sm font-bold">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="md:col-span-2 space-y-6">
+                        
+                        <div>
+                            <label for="title" class="block text-sm font-bold text-gray-700 uppercase tracking-widest mb-2">Project Title <span class="text-red-500">*</span></label>
+                            <input type="text" id="title" name="title" required value="{{ old('title', $project->title) }}" placeholder="Enter your epic story title..."
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm @error('title') border-red-500 @enderror">
+                            @error('title') 
+                                <p class="mt-2 text-red-500 text-sm font-bold">{{ $message }}</p> 
+                            @enderror
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="penname" class="block text-sm font-bold text-gray-700 uppercase tracking-widest mb-2">Penname <span class="text-red-500">*</span></label>
+                                <input type="text" id="penname" name="penname" required value="{{ old('penname', $project->penname) }}"
+                                       class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-gray-700 uppercase tracking-widest mb-2">Genre:</label>
+                                <select name="genre" id="genre" class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm text-gray-700">
+                                    <option value="" disabled {{ empty($project->genre) ? 'selected' : '' }}>-- Choose a genre --</option>
+                                    <option value="Fictional" {{ old('genre', $project->genre) == 'Fictional' ? 'selected' : '' }}>Fictional</option>
+                                    <option value="Fantasy" {{ old('genre', $project->genre) == 'Fantasy' ? 'selected' : '' }}>Fantasy</option>
+                                    <option value="Romance" {{ old('genre', $project->genre) == 'Romance' ? 'selected' : '' }}>Romance</option>
+                                    <option value="Sci-Fi" {{ old('genre', $project->genre) == 'Sci-Fi' ? 'selected' : '' }}>Sci-Fi</option>
+                                    <option value="Horror" {{ old('genre', $project->genre) == 'Horror' ? 'selected' : '' }}>Horror</option>
+                                    <option value="Thriller" {{ old('genre', $project->genre) == 'Thriller' ? 'selected' : '' }}>Action / Thriller</option>
+                                    <option value="Drama" {{ old('genre', $project->genre) == 'Drama' ? 'selected' : '' }}>Drama</option>
+                                    <option value="Slice of Life" {{ old('genre', $project->genre) == 'Slice of Life' ? 'selected' : '' }}>Slice of Life</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="outline" class="block text-sm font-bold text-gray-700 uppercase tracking-widest mb-2">Outline / Summary</label>
+                            <textarea id="outline" name="outline" rows="7" placeholder="Briefly describe what your story is about..."
+                                      class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm resize-none">{{ old('outline', $project->outline) }}</textarea>
+                        </div>
+                    </div>
                 </div>
-            @endif
 
-            <div class="mb-4">
-                <label for="title" class="block font-semibold text-sm mb-1">Project Title</label>
-                <input type="text" id="title" name="title" value="{{ old('title', $project->title) }}" 
-                    class="w-full p-2 border rounded-lg focus:border-blue-500 @error('title') border-red-600 @else border-gray-300 @enderror">
-                @error('title')
-                    <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                <div class="mt-10 pt-8 border-t border-gray-100 flex justify-end gap-4">
+                    <a href="{{ route('projects.index') }}" class="px-8 py-4 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 transform hover:-translate-y-1">
+                        Update Project
+                    </button>
+                </div>
 
-            <div class="mb-4">
-                <label for="penname" class="block font-semibold text-sm mb-1">Penname</label>
-                <input type="text" id="penname" name="penname" value="{{ old('penname', $project->penname) }}" 
-                    class="w-full p-2 border rounded-lg focus:border-blue-500 @error('penname') border-red-600 @else border-gray-300 @enderror">
-                @error('penname')
-                    <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label class="block mb-2 font-bold">Genre:</label>
-                    <select name="genre" id="genre" class="mt-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                        <option value="" disabled {{ empty($project->genre) ? 'selected' : '' }}>-- Choose a genre --</option>
-                        <option value="Fictional" {{ old('genre', $project->genre) == 'Fictional' ? 'selected' : '' }}>Fictional</option>
-                        <option value="Fantasy" {{ old('genre', $project->genre) == 'Fantasy' ? 'selected' : '' }}>Fantasy</option>
-                        <option value="Romance" {{ old('genre', $project->genre) == 'Romance' ? 'selected' : '' }}>Romance</option>
-                        <option value="Sci-Fi" {{ old('genre', $project->genre) == 'Sci-Fi' ? 'selected' : '' }}>Sci-Fi</option>
-                        <option value="Horror" {{ old('genre', $project->genre) == 'Horror' ? 'selected' : '' }}>Horror</option>
-                        <option value="Thriller" {{ old('genre', $project->genre) == 'Thriller' ? 'selected' : '' }}>Action</option>
-                        <option value="Drama" {{ old('genre', $project->genre) == 'Drama' ? 'selected' : '' }}>Drama</option>
-                        <option value="Slice of Life" {{ old('genre', $project->genre) == 'Slice of Life' ? 'selected' : '' }}>Slice of Life</option>
-                    </select>
-            </div>
-
-
-
-            <div class="mb-6">
-                <label for="outline" class="block font-semibold text-sm mb-1">Outline / Summary</label>
-                <textarea id="outline" name="outline" rows="4" 
-                    class="w-full border p-2 rounded-lg focus:border-blue-500 @error('outline') border-red-600 @else border-gray-300 @enderror">{{ old('outline', $project->outline) }}</textarea>
-                @error('outline')
-                    <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label class="block mb-2 font-bold">Cover Image:</label>
-                <input type="file" name="cover_image" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
-            </div>
-            <div class="flex justify-end gap-3">
-                <a href="{{ route('projects.index') }}" class="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition">Cancel</a>
-                <button type="submit" class="bg-sky-800 text-sky-50 px-6 py-2 uppercase font-medium rounded-lg hover:bg-sky-900 transition shadow-sm">Update</button>
-            </div>
-
-        </form>
+            </form>
+        </div>
     </div>
+
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('image-preview');
+            const content = document.getElementById('upload-content');
+            const dropZone = document.getElementById('drop-zone');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    if(content) content.classList.add('hidden');
+                    dropZone.classList.remove('border-dashed', 'border-gray-300');
+                    dropZone.classList.add('border-solid', 'border-blue-500');
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </x-site-layout>
