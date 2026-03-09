@@ -40,16 +40,60 @@
                 @enderror
             </div>
 
-            <div class="mb-4">
-                <label class="block mb-2 font-bold">Cover Image:</label>
-                <input type="file" name="cover_image" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
+                        <div class="mb-6">
+                <label class="block text-sm font-bold text-gray-700 uppercase tracking-widest mb-2">Cover Image</label>
+                
+                <div class="mt-1 flex justify-center px-6 pt-10 pb-10 border-2 border-gray-300 border-dashed rounded-3xl hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 relative group cursor-pointer overflow-hidden" 
+                    id="drop-zone" 
+                    onclick="document.getElementById('cover_image').click()">
+                    
+                    <div class="space-y-2 text-center relative z-10" id="upload-content">
+                        <svg class="mx-auto h-14 w-14 text-gray-400 group-hover:text-indigo-500 transition-colors" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-gray-600 justify-center items-center gap-1">
+                            <span class="font-bold text-indigo-600 hover:text-indigo-800">Upload a file</span>
+                            <p>or drag and drop</p>
+                        </div>
+                        <p class="text-xs text-gray-500 font-medium">PNG, JPG up to 2MB</p>
+                    </div>
+                    
+                    <img id="image-preview" class="hidden absolute inset-0 w-full h-full object-cover rounded-3xl opacity-90 group-hover:opacity-100 transition-opacity z-0" src="" alt="Preview">
+
+                    <input id="cover_image" name="cover_image" type="file" class="sr-only" accept="image/*" onchange="previewImage(event)">
+                </div>
+
+                @error('cover_image')
+                    <p class="mt-2 text-red-500 text-sm font-bold">{{ $message }}</p>
+                @enderror
             </div>
 
-                <div class="flex justify-end space-x-4 pt-4">
-                    <a href="{{ route('projects.index') }}" class="px-6 py-2 bg-gray-200 rounded-lg">Cancel</a>
-                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save Project</button>
-                </div>
-            </div>
+            <script>
+                function previewImage(event) {
+                    const input = event.target;
+                    const preview = document.getElementById('image-preview');
+                    const content = document.getElementById('upload-content');
+                    const dropZone = document.getElementById('drop-zone');
+
+                    if (input.files && input.files[0]) {
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            
+                            preview.src = e.target.result;
+                            
+                            preview.classList.remove('hidden');
+                            
+                            content.classList.add('hidden');
+                            
+                            dropZone.classList.remove('border-dashed', 'border-gray-300');
+                            dropZone.classList.add('border-solid', 'border-indigo-500');
+                        }
+                        
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+            </script>
         </form>
     </div>
 </x-site-layout>
