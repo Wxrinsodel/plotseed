@@ -5,7 +5,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CharacterController;
-
+use App\Http\Controllers\BoardController;
 /*
 
 * Public routes
@@ -71,6 +71,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/projects/{id}/sequence/{sequenceId}/edit', [ProjectController::class, 'editSequence'])->name('projects.sequence.edit');
     Route::put('/projects/{id}/sequence/{sequenceId}', [ProjectController::class, 'updateSequence'])->name('projects.sequence.update');
     Route::delete('/projects/{id}/sequence/{sequenceId}', [ProjectController::class, 'destroySequence'])->name('projects.sequence.destroy');
+
+
+    // --- Board ---
+    Route::prefix('projects/{project}/board')->name('board.')->group(function () {
+        Route::get('/', [BoardController::class, 'index'])->name('index');
+        
+        // mange notes (AJAX)
+        Route::post('/notes', [BoardController::class, 'storeNote'])->name('notes.store');
+        Route::put('/notes/{boardNote}/content', [BoardController::class, 'updateNoteContent'])->name('notes.content');
+        Route::put('/notes/{boardNote}/position', [BoardController::class, 'updateNotePosition'])->name('notes.position');
+        Route::delete('/notes/{boardNote}', [BoardController::class, 'destroyNote'])->name('notes.destroy');
+
+        
+        // manage links (AJAX)
+        Route::post('/links', [BoardController::class, 'storeLink'])->name('links.store');
+        Route::delete('/links/{boardLink}', [BoardController::class, 'destroyLink'])->name('links.destroy');
+        Route::put('/links/{boardLink}/label', [BoardController::class, 'updateLinkLabel'])->name('links.label');
+        
+    });
 });
 
 /*

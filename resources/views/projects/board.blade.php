@@ -1,81 +1,303 @@
-<x-site-layout title="Character Board - {{ $project->title }}">
-    <div class="max-w-7xl mx-auto p-6 mt-8">
-        
-        <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-                <a href="{{ route('projects.show', $project->id) }}" class="text-gray-500 hover:text-emerald-600 font-bold flex items-center gap-2 transition bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 w-fit mb-2">
-                    &larr; Back to Project
+<x-site-layout title="Detective Board : {{ $project->title }}">
+    
+    <div class="max-w-full mx-auto p-4 md:p-6 mt-4 md:mt-8">
+        <div class="flex justify-between items-center mb-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <h2 class="font-bold text-2xl text-gray-800 flex items-center gap-3">
+                <a href="{{ route('projects.show', $project->id) }}" class="text-gray-400 hover:text-blue-500 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 </a>
-                <h1 class="text-3xl font-black text-gray-900 uppercase tracking-tight">Character Board</h1>
-                <p class="text-emerald-600 font-medium">Cast of "{{ $project->title }}"</p>
+                📝 Detective Board : <span class="text-blue-600">{{ $project->title }}</span>
+            </h2>
+            <div class="flex gap-3">
+                <button id="resetBoardBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg shadow-sm transition-all border border-gray-200">
+                    🔄 Reset Board
+                </button>
+                <button id="addNoteBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all">
+                    + Add Note
+                </button>
             </div>
-
-            <a href="{{ route('projects.characters.manage', $project->id) }}" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-emerald-100 transition-all transform hover:-translate-y-1 flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                Manage Cast
-            </a>
         </div>
 
-        <div class="bg-emerald-50/50 p-8 rounded-[3rem] border-2 border-dashed border-emerald-200 min-h-[600px]">
+        <div class="relative w-full overflow-hidden bg-gray-50 border-2 border-dashed border-gray-300 rounded-2xl shadow-inner" 
+             style="height: calc(100vh - 160px); min-height: 500px;" 
+             id="boardContainer">
             
-            @if($project->characters->count() > 0)
-                <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                    @foreach($project->characters as $character)
-                        <div class="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden group">
-                            
-                            <div class="absolute w-2 h-full bg-emerald-500 transition-all group-hover:w-3"></div>
+            <svg id="linesOverlay" class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 0;"></svg>
+            
+            <div id="labelsOverlay" class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 5;"></div>
 
-                            <div class="flex flex-row p-6 pl-10 gap-6 items-center">
-                                <div class="flex-shrink-0 relative">
-                                    <img src="{{ $character->avatarUrl('preview') }}" 
-                                         alt="{{ $character->name }}" 
-                                         class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-emerald-50 shadow-md group-hover:scale-105 transition-transform">
-                                    
-                                    <div class="absolute -bottom-2 -right-2 bg-emerald-600 text-white rounded-full p-2 shadow-lg border-2 border-white">
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>
-                                    </div>
-                                </div>
-
-                                <div class="flex-grow min-w-0">
-                                    <div class="flex justify-between items-start">
-                                        <p class="text-[10px] font-black tracking-widest text-emerald-500 uppercase mb-1">Character Profile</p>
-                                        <span class="text-[10px] font-mono text-gray-300">#{{ str_pad($character->id, 4, '0', STR_PAD_LEFT) }}</span>
-                                    </div>
-                                    
-                                    <h2 class="text-2xl font-black text-gray-900 truncate mb-1">{{ $character->name }}</h2>
-                                    
-                                    <div class="flex flex-wrap gap-2 mb-3">
-                                        <span class="bg-emerald-50 text-emerald-700 text-[10px] font-black px-3 py-1 rounded-lg uppercase border border-emerald-100">
-                                            {{ $character->role ?? 'Extra' }}
-                                        </span>
-                                    </div>
-
-                                    <p class="text-sm text-gray-500 line-clamp-2 leading-relaxed italic">
-                                        "{{ $character->identity ?? 'No identity summary available.' }}"
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="bg-gray-50 px-8 py-3 flex justify-between items-center border-t border-gray-100 group-hover:bg-emerald-50/30 transition-colors">
-                                <a href="{{ route('characters.show', $character->id) }}" class="text-xs font-bold text-emerald-600 hover:text-emerald-800 flex items-center gap-1 transition">
-                                    VIEW FULL DOSSIER &rarr;
-                                </a>
-                                <div class="w-12 h-3 opacity-20" style="background-image: repeating-linear-gradient(to right, #000 0, #000 2px, transparent 2px, transparent 4px);"></div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="flex flex-col items-center justify-center py-32 text-center">
-                    <div class="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-6">
-                        <svg class="w-12 h-12 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            @foreach($notes as $note)
+                <div class="board-note absolute w-56 h-56 p-2 shadow-lg cursor-grab active:cursor-grabbing rounded-xl border border-gray-200 {{ $note->color }} transition-shadow hover:shadow-xl flex flex-col"
+                     style="z-index: 10; transform: translate({{ $note->pos_x }}px, {{ $note->pos_y }}px);"
+                     data-id="{{ $note->id }}"
+                     data-x="{{ $note->pos_x }}"
+                     data-y="{{ $note->pos_y }}">
+                    
+                    <div class="absolute -left-3 top-1/2 transform -translate-y-1/2 z-20 group connect-wrapper">
+                        <button onclick="deleteLinksOfNote({{ $note->id }})" 
+                                class="absolute -top-7 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gray-200 text-gray-600 rounded-full text-lg font-black flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white transition-all shadow-md link-delete-btn cursor-pointer pointer-events-auto" 
+                                data-note-id="{{ $note->id }}" style="display: none;" title="delete link">-</button>
+                        <div class="w-5 h-5 bg-gray-800 rounded-full cursor-crosshair hover:scale-125 transition-transform border-2 border-white shadow-md connect-dot pointer-events-auto" 
+                             data-id="{{ $note->id }}" title="connect to"></div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-400">The stage is empty.</h3>
-                    <p class="text-gray-400 mt-2">Add characters to this project to see them on the board.</p>
-                    <a href="{{ route('projects.characters.manage', $project->id) }}" class="mt-6 text-emerald-600 font-bold border-b-2 border-emerald-600 pb-1">Manage Cast Now</a>
-                </div>
-            @endif
 
+                    <div class="absolute -right-3 top-1/2 transform -translate-y-1/2 z-20 group connect-wrapper">
+                        <button onclick="deleteLinksOfNote({{ $note->id }})" 
+                                class="absolute -top-7 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gray-200 text-gray-600 rounded-full text-lg font-black flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white transition-all shadow-md link-delete-btn cursor-pointer pointer-events-auto" 
+                                data-note-id="{{ $note->id }}" style="display: none;" title="delete link">-</button>
+                        <div class="w-5 h-5 bg-gray-800 rounded-full cursor-crosshair hover:scale-125 transition-transform border-2 border-white shadow-md connect-dot pointer-events-auto" 
+                             data-id="{{ $note->id }}" title="connect to"></div>
+                    </div>
+
+                    <div class="w-full flex justify-end mb-1">
+                        <button onclick="deleteNote({{ $note->id }})" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors px-2 cursor-pointer pointer-events-auto">
+                            &times;
+                        </button>
+                    </div>
+
+                    <textarea class="flex-grow w-full bg-transparent border-transparent border-0 outline-none focus:outline-none focus:border-transparent focus:ring-0 resize-none text-gray-800 font-medium text-lg leading-relaxed placeholder-gray-500 px-3 pb-3 pointer-events-auto" 
+                              placeholder="type something..."
+                              onchange="updateNoteContent({{ $note->id }}, this.value)">{{ $note->content }}</textarea>
+                </div>
+            @endforeach
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script>
+        const projectId = '{{ $project->id }}';
+        const csrfToken = '{{ csrf_token() }}';
+        
+        let boardLinks = @json($links); 
+        const svgOverlay = document.getElementById('linesOverlay');
+        const labelsOverlay = document.getElementById('labelsOverlay'); // layer for link labels
+        const boardContainer = document.getElementById('boardContainer');
+
+        // ==========================================
+        // 1. Draggable Notes system using Interact.js
+        // ==========================================
+        interact('.board-note').draggable({
+            inertia: true,
+            ignoreFrom: '.connect-wrapper, button', 
+            modifiers: [
+                interact.modifiers.restrictRect({ restriction: 'parent', endOnly: true })
+            ],
+            listeners: {
+                move (event) {
+                    const target = event.target;
+                    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                    target.style.transform = `translate(${x}px, ${y}px)`;
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                    renderLines(); 
+                },
+                end (event) {
+                    const target = event.target;
+                    fetch(`/projects/${projectId}/board/notes/${target.getAttribute('data-id')}/position`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                        body: JSON.stringify({ pos_x: target.getAttribute('data-x'), pos_y: target.getAttribute('data-y') })
+                    });
+                }
+            }
+        });
+
+        // ==========================================
+        // 2. Drag to Connect Notes with temporary line
+        // ==========================================
+        let isDraggingLine = false;
+        let tempLine = null;
+        let startNoteId = null;
+
+        boardContainer.addEventListener('mousedown', function(e) {
+            if(e.target.classList.contains('connect-dot')) {
+                isDraggingLine = true;
+                startNoteId = e.target.getAttribute('data-id');
+                
+                const rect = e.target.getBoundingClientRect();
+                const containerRect = boardContainer.getBoundingClientRect();
+                const startX = rect.left - containerRect.left + (rect.width / 2);
+                const startY = rect.top - containerRect.top + (rect.height / 2);
+
+                tempLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                tempLine.setAttribute('x1', startX);
+                tempLine.setAttribute('y1', startY);
+                tempLine.setAttribute('x2', startX);
+                tempLine.setAttribute('y2', startY);
+                tempLine.setAttribute('stroke', '#3b82f6'); 
+                tempLine.setAttribute('stroke-width', '4');
+                tempLine.setAttribute('stroke-dasharray', '5,5');
+                svgOverlay.appendChild(tempLine);
+            }
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if(isDraggingLine && tempLine) {
+                const containerRect = boardContainer.getBoundingClientRect();
+                tempLine.setAttribute('x2', e.clientX - containerRect.left);
+                tempLine.setAttribute('y2', e.clientY - containerRect.top);
+            }
+        });
+
+        document.addEventListener('mouseup', function(e) {
+            if(isDraggingLine) {
+                isDraggingLine = false;
+                if(tempLine) { tempLine.remove(); tempLine = null; }
+
+                if(e.target.classList.contains('connect-dot')) {
+                    const targetNoteId = e.target.getAttribute('data-id');
+                    if(targetNoteId && targetNoteId !== startNoteId) {
+                        saveLink(startNoteId, targetNoteId);
+                    }
+                }
+                startNoteId = null;
+            }
+        });
+
+        // ==========================================
+        // 3. Render lines and labels based on current links data
+        // ==========================================
+        function renderLines() {
+            svgOverlay.innerHTML = ''; 
+            labelsOverlay.innerHTML = '';
+            
+            boardLinks.forEach(link => {
+                const source = document.querySelector(`.board-note[data-id="${link.source_note_id}"]`);
+                const target = document.querySelector(`.board-note[data-id="${link.target_note_id}"]`);
+
+                if(source && target) {
+                    const sX = parseFloat(source.getAttribute('data-x')) + (source.offsetWidth / 2);
+                    const sY = parseFloat(source.getAttribute('data-y')) + (source.offsetHeight / 2);
+                    const tX = parseFloat(target.getAttribute('data-x')) + (target.offsetWidth / 2);
+                    const tY = parseFloat(target.getAttribute('data-y')) + (target.offsetHeight / 2);
+
+                    // draw line
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', sX);
+                    line.setAttribute('y1', sY);
+                    line.setAttribute('x2', tX);
+                    line.setAttribute('y2', tY);
+                    line.setAttribute('stroke', '#1f2937'); 
+                    line.setAttribute('stroke-width', '3');
+                    svgOverlay.appendChild(line);
+
+                    // calculate midpoint for label
+                    const midX = (sX + tX) / 2;
+                    const midY = (sY + tY) / 2;
+
+                    const labelInput = document.createElement('input');
+                    labelInput.type = 'text';
+                    labelInput.value = link.label || '';
+                    labelInput.placeholder = 'เพิ่มความสัมพันธ์...';
+                    
+                    labelInput.className = 'absolute bg-white border border-gray-300 rounded-md px-2 py-1 text-xs text-center text-gray-700 shadow-sm transform -translate-x-1/2 -translate-y-1/2 pointer-events-auto focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all w-28 placeholder-gray-300';
+                    labelInput.style.left = `${midX}px`;
+                    labelInput.style.top = `${midY}px`;
+                    
+                    // save label on change
+                    labelInput.addEventListener('change', function() {
+                        updateLinkLabel(link.id, this.value);
+                    });
+
+                    labelsOverlay.appendChild(labelInput);
+                }
+            });
+
+            document.querySelectorAll('.link-delete-btn').forEach(btn => {
+                const nId = btn.getAttribute('data-note-id');
+                const hasLinks = boardLinks.some(l => l.source_note_id == nId || l.target_note_id == nId);
+                btn.style.display = hasLinks ? 'flex' : 'none';
+            });
+        }
+
+        // ==========================================
+        // 4. API Functions
+        // ==========================================
+        function saveLink(sourceId, targetId) {
+            fetch(`/projects/${projectId}/board/links`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' },
+                body: JSON.stringify({ source_note_id: sourceId, target_note_id: targetId })
+            }).then(res => res.json()).then(data => {
+                if(data.success) {
+                    boardLinks.push(data.link);
+                    renderLines();
+                }
+            });
+        }
+
+        function deleteLinksOfNote(noteId) {
+            const linksToDelete = boardLinks.filter(l => l.source_note_id == noteId || l.target_note_id == noteId);
+            if(linksToDelete.length === 0) return;
+            
+            Promise.all(linksToDelete.map(link => {
+                return fetch(`/projects/${projectId}/board/links/${link.id}`, {
+                    method: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' }
+                });
+            })).then(() => {
+                boardLinks = boardLinks.filter(l => l.source_note_id != noteId && l.target_note_id != noteId);
+                renderLines();
+            });
+        }
+
+        document.getElementById('addNoteBtn').addEventListener('click', function() {
+            const colors = ['bg-yellow-100', 'bg-green-100', 'bg-blue-100', 'bg-pink-100', 'bg-purple-100'];
+            fetch(`/projects/${projectId}/board/notes`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                body: JSON.stringify({ pos_x: 20, pos_y: 20, color: colors[Math.floor(Math.random() * colors.length)] })
+            }).then(res => res.json()).then(data => { if(data.success) location.reload(); });
+        });
+
+        function deleteNote(noteId) {
+            if(confirm('Delete this note? All connected links will also be deleted.')) {
+                fetch(`/projects/${projectId}/board/notes/${noteId}`, { method: 'DELETE', headers: { 'X-CSRF-TOKEN': csrfToken } })
+                  .then(res => res.json()).then(data => { if(data.success) location.reload(); });
+            }
+        }
+
+        function updateNoteContent(noteId, content) {
+            fetch(`/projects/${projectId}/board/notes/${noteId}/content`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                body: JSON.stringify({ content: content })
+            });
+        }
+
+        // save link label to database
+        function updateLinkLabel(linkId, text) {
+            fetch(`/projects/${projectId}/board/links/${linkId}/label`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' },
+                body: JSON.stringify({ label: text })
+            }).then(res => res.json()).then(data => {
+                if(data.success) {
+                    const linkIndex = boardLinks.findIndex(l => l.id == linkId);
+                    if(linkIndex > -1) boardLinks[linkIndex].label = text;
+                }
+            });
+        }
+
+        document.getElementById('resetBoardBtn').addEventListener('click', function() {
+            if(!confirm('Are you sure you want to reset the board? This will move all notes to their initial positions and delete all links.')) return;
+            
+            let linkPromises = boardLinks.map(link => fetch(`/projects/${projectId}/board/links/${link.id}`, { method: 'DELETE', headers: {'X-CSRF-TOKEN': csrfToken} }));
+            
+            const notes = document.querySelectorAll('.board-note');
+            let posPromises = Array.from(notes).map((note, index) => {
+                return fetch(`/projects/${projectId}/board/notes/${note.getAttribute('data-id')}/position`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                    body: JSON.stringify({ pos_x: 20 + (index * 20), pos_y: 20 + (index * 20) })
+                });
+            });
+
+            Promise.all([...linkPromises, ...posPromises]).then(() => location.reload());
+        });
+
+        renderLines();
+
+    </script>
 </x-site-layout>

@@ -53,4 +53,14 @@ class Project extends Model implements HasMedia
     {
         return $this->hasMany(\App\Models\Sequence::class)->orderBy('order_num', 'asc');
     }
+
+    public function boardNotes()
+    {
+        return $this->hasMany(BoardNote::class);
+    }
+
+    public function boardLinks()
+    {
+        return $this->hasMany(BoardLink::class);
+    }
 }

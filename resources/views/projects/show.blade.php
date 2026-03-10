@@ -57,7 +57,7 @@
                             <p class="text-sm text-indigo-500 mt-2 group-hover:text-indigo-100 transition">Manage sequence of events</p>
                         </a>
                         
-                        <a href="{{ route('projects.board', $project->id) }}" class="group block bg-emerald-50 border border-emerald-100 p-6 rounded-xl text-center hover:bg-emerald-500 hover:border-emerald-500 transition duration-300 shadow-sm">
+                        <a href="{{ route('board.index', $project->id) }}" class="group block bg-emerald-50 border border-emerald-100 p-6 rounded-xl text-center hover:bg-emerald-500 hover:border-emerald-500 transition duration-300 shadow-sm">
                             <h3 class="text-xl font-bold text-emerald-700 group-hover:text-white transition">Board</h3>
                             <p class="text-sm text-emerald-500 mt-2 group-hover:text-emerald-100 transition">Manage project board</p>
                         </a>
