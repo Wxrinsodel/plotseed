@@ -21,17 +21,22 @@ class Character extends Model implements HasMedia
         return $this->belongsTo(\App\Models\User::class);
     }
 
-    public function avatarUrl($conversion = 'preview'): string
-{
-
-    $media = $this->getFirstMedia('avatars');
-
-    if ($media) {
-        return $media->getUrl($conversion);
+    public function projects()
+    {
+        return $this->belongsToMany(\App\Models\Project::class);
     }
+
+    public function avatarUrl($conversion = 'preview'): string
+    {
+
+        $media = $this->getFirstMedia('avatars');
+
+        if ($media) {
+           return $media->getUrl($conversion);
+        }
     
-    return asset('img/defaults/Profile_icon.jpg');
-}
+        return asset('img/defaults/Profile_icon.jpg');
+    }
 
     public function registerMediaConversions(?Media $media = null): void
     {
