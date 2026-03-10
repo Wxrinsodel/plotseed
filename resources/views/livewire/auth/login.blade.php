@@ -25,7 +25,7 @@
                     
                     <div>
                         <label for="email" class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Email address</label>
-                        <input id="email" name="email" type="email" autocomplete="email" required 
+                        <input id="email" name="email" type="email" autocomplete="username" required 
                                class="appearance-none rounded-xl block w-full px-4 py-3.5 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm @error('email') border-red-500 @enderror" 
                                value="{{ old('email') }}">
                         @error('email')
