@@ -30,6 +30,8 @@ class ProjectController extends Controller
             'genre'      => ['required', 'string'],
             'outline'    => ['nullable', 'string'],
             'characters' => ['nullable', 'array'],
+            'book_link' => 'nullable|url|max:255',
+
         ], [
             'title.required'   => 'you need to fill in the title name',
             'penname.required' => 'you need to fill in your penname',
@@ -85,6 +87,7 @@ class ProjectController extends Controller
             'genre'      => ['required', 'string'],
             'outline'    => ['nullable', 'string'],
             'characters' => ['nullable', 'array'],
+            'book_link' => 'nullable|url|max:255',
         ], [
 
             'title.required'   => 'you need to fill in the title name',

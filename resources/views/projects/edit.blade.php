@@ -83,6 +83,18 @@
                             <textarea id="outline" name="outline" rows="7" placeholder="Briefly describe what your story is about..."
                                       class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm resize-none">{{ old('outline', $project->outline) }}</textarea>
                         </div>
+
+                        <div class="mt-6">
+                            <label for="book_link" class="block text-sm font-bold text-gray-700 mb-2">Book Link</label>
+                            <input type="url" name="book_link" id="book_link" 
+                                value="{{ old('book_link', $project->book_link ?? '') }}" 
+                                placeholder="https://..." 
+                                class="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all shadow-sm @error('book_link') border-red-500 @enderror">
+                            @error('book_link')
+                                <p class="text-red-600 text-sm mt-1 font-bold">{{ $message }}</p>
+                            @enderror
+                            <p class="text-xs text-gray-400 mt-1">Add a link to the book (if available)</p>
+                        </div>
                     </div>
                 </div>
 

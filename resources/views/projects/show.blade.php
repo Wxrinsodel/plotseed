@@ -31,14 +31,23 @@
                                 {{ $project->outline ?? 'No outline provided yet.' }}
                             </p>
 
-                            <div class="flex gap-3 pt-4 border-t border-gray-100">
-                                <a href="{{ route('projects.edit', $project->id) }}" class="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600 transition shadow-sm">
+                            <div class="flex flex-wrap gap-3 pt-4 border-t border-gray-100">
+                                
+                                @if($project->book_link)
+                                    <a href="{{ $project->book_link }}" target="_blank" rel="noopener noreferrer" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-sm flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                        Novel / Book Link
+                                    </a>
+                                @endif
+
+                                <a href="{{ route('projects.edit', $project->id) }}" class="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600 transition shadow-sm flex items-center justify-center">
                                     Edit Project
                                 </a>
+
                                 <form action="{{ route('projects.destroy', $project->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this project?');" class="m-0">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-bold shadow-sm transition">
+                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-bold shadow-sm transition flex items-center justify-center h-full">
                                         Delete
                                     </button>
                                 </form>
