@@ -52,26 +52,25 @@ cd plotseed
 composer install
 ```
 
-3. Install and compile Frontend assets (if applicable)
-```bash
-npm install
-npm run build
-```
-
-4. Set up the environment
+3. Set up the environment
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-5. Create a SQLite database file (Windows/Mac/Linux)
+4. Create a SQLite database file (Windows/Mac/Linux)
 ```bash
 touch database\database.sqlite
 ```
 
-6. Run the migrations and seed the database
+5. Run the migrations and seed the database
 ```bash
 php artisan migrate:fresh --seed
+```
+6. Install and compile Frontend assets (if applicable)
+```bash
+npm install
+npm run build
 ```
 
 7. Start the local development server (if not using Laravel Herd)
