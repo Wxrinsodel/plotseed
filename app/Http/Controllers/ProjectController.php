@@ -94,11 +94,11 @@ class ProjectController extends Controller
             'penname.required' => 'you need to fill in your penname',
             'genre.required'   => 'you need to choose your genre',
         ]);
+
         $project->update($data);
 
         $project->characters()->sync($data['characters'] ?? []);
 
-        
         if ($request->hasFile('cover_image')) {
             $project->clearMediaCollection('covers'); 
             $project->addMediaFromRequest('cover_image')->toMediaCollection('covers');
@@ -198,25 +198,27 @@ class ProjectController extends Controller
         return redirect()->route('projects.sequence', $project->id);
     }
 
-    // ฟังก์ชันสำหรับลบเหตุการณ์
+    
     public function destroySequence($id, $sequenceId)
     {
         $sequence = Sequence::where('project_id', $id)->findOrFail($sequenceId);
+
         $sequence->delete();
 
         return redirect()->back()->with('success', 'Event deleted successfully');
     }
 
-    // ฟังก์ชันสำหรับหน้าแก้ไข (แบบง่าย)
+    
     public function editSequence($id, $sequenceId)
     {
         $project = Project::findOrFail($id);
+
         $sequence = Sequence::where('project_id', $id)->findOrFail($sequenceId);
         
         return view('projects.edit-sequence', compact('project', 'sequence'));
     }
 
-    // ฟังก์ชันสำหรับบันทึกการแก้ไข
+    
     public function updateSequence(Request $request, $id, $sequenceId)
     {
         $sequence = Sequence::where('project_id', $id)->findOrFail($sequenceId);

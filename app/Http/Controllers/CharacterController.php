@@ -34,9 +34,7 @@ class CharacterController extends Controller
 
         $data['user_id'] = auth()->id();
 
-        Character::create($data);
-
-        $character = Character::where('user_id', auth()->id())->latest()->first();
+        $character = Character::create($data);
 
         if ($request->hasFile('avatar')) {
             $character->addMediaFromRequest('avatar')->toMediaCollection('avatars');
