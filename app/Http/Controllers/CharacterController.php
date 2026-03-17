@@ -11,6 +11,9 @@ class CharacterController extends Controller
     {
         $characters = Character::where('user_id', auth()->id())->orderBy('updated_at', 'desc')->get();
         return view('characters.index', ['characters' => $characters]);
+
+        $characters = Character::with('projects')->where('user_id', auth()->id())->orderBy('updated_at', 'desc')->get();
+        return view('characters.index', ['characters' => $characters]);
     }
 
     public function create()
@@ -56,7 +59,15 @@ class CharacterController extends Controller
 
         
         return view('characters.show', ['character' => $character]);
-    }
+
+        $character = \App\Models\Character::with('projects')->findOrFail($id);
+
+        if ($character->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action. You do not have permission to view this character.');
+        }
+    
+        return view('characters.show', ['character' => $character]);
+        }
 
     public function edit($id)
     {
@@ -82,8 +93,8 @@ class CharacterController extends Controller
             'name'        => ['required', 'string', 'max:255'],
             'role'        => ['required', 'string'],
             'identity'    => ['nullable', 'string'],
-            'social_x'    => ['nullable', 'string', 'max:255'], // <--- เพิ่มช่อง X
-            'social_ig'   => ['nullable', 'string', 'max:255'], // <--- เพิ่มช่อง IG
+            'social_x'    => ['nullable', 'string', 'max:255'],
+            'social_ig'   => ['nullable', 'string', 'max:255'],
             'background'  => ['nullable', 'string'],
             'development' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],

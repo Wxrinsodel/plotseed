@@ -56,7 +56,6 @@
 
                             @if(!empty($character->social_x) || !empty($character->social_ig))
                                 <div class="mt-3 flex flex-wrap items-center gap-3 border-t border-gray-100 pt-3">
-                                    
                                     @if(!empty($character->social_x))
                                         <div class="flex items-center text-xs text-gray-500 hover:text-gray-900 transition-colors" title="X (Twitter)">
                                             <svg class="h-3.5 w-3.5 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
@@ -65,7 +64,6 @@
                                             <span class="truncate max-w-[100px]">{{ $character->social_x }}</span>
                                         </div>
                                     @endif
-
                                     @if(!empty($character->social_ig))
                                         <div class="flex items-center text-xs text-gray-500 hover:text-pink-600 transition-colors" title="Instagram">
                                             <svg class="h-3.5 w-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,10 +74,24 @@
                                             <span class="truncate max-w-[100px]">{{ $character->social_ig }}</span>
                                         </div>
                                     @endif
-
                                 </div>
                             @endif
-                        </div>
+
+                            @if($character->projects && $character->projects->count() > 0)
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        @foreach($character->projects as $project)
+                                            <div class="flex items-center px-2 py-1 bg-indigo-50 border border-indigo-100 rounded text-xs font-medium text-indigo-700">
+                                                <svg class="w-3 h-3 mr-1 text-indigo-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                                </svg>
+                                                <span class="truncate">{{ $project->title ?? $project->name }}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                            </div>
                     </div>
 
                     <div class="border-t border-gray-100 bg-gray-50 px-6 py-3 pl-8 flex justify-between items-center group-hover:bg-blue-50/50 transition-colors">
