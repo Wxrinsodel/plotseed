@@ -54,6 +54,28 @@
                     </p>
                 </div>
 
+                @if(!empty($character->social_x) || !empty($character->social_ig))
+                    <div class="mt-6 pt-4 border-t border-gray-200">
+                        <h3 class="text-sm font-bold text-gray-900 mb-3">ช่องทางการติดตาม</h3>
+                        
+                        <div class="space-y-2">
+                            @if(!empty($character->social_x))
+                                <div class="flex items-center text-sm">
+                                    <span class="font-semibold text-gray-700 w-24">X (Twitter):</span>
+                                    <span class="text-gray-600">{{ $character->social_x }}</span>
+                                </div>
+                            @endif
+
+                            @if(!empty($character->social_ig))
+                                <div class="flex items-center text-sm">
+                                    <span class="font-semibold text-gray-700 w-24">Instagram:</span>
+                                    <span class="text-gray-600">{{ $character->social_ig }}</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
                 <div>
                     <h2 class="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2 border-b pb-2">
                         <span class="text-2xl">🌍</span> Background

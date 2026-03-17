@@ -24,9 +24,12 @@ class CharacterController extends Controller
             'name'        => ['required', 'string', 'max:255'],
             'role'        => ['required', 'string'],
             'identity'    => ['nullable', 'string'],
+            'social_x'    => ['nullable', 'string', 'max:255'],
+            'social_ig'   => ['nullable', 'string', 'max:255'],
             'background'  => ['nullable', 'string'],
             'development' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
+
         ], [
             'name.required' => 'you need to fill in the character name',
             'role.required' => 'you need to choose a role',
@@ -79,6 +82,8 @@ class CharacterController extends Controller
             'name'        => ['required', 'string', 'max:255'],
             'role'        => ['required', 'string'],
             'identity'    => ['nullable', 'string'],
+            'social_x'    => ['nullable', 'string', 'max:255'], // <--- เพิ่มช่อง X
+            'social_ig'   => ['nullable', 'string', 'max:255'], // <--- เพิ่มช่อง IG
             'background'  => ['nullable', 'string'],
             'development' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],

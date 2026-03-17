@@ -53,6 +53,32 @@
                             <p class="text-sm text-gray-500 mt-3 line-clamp-2 leading-relaxed pr-2">
                                 {{ $character->identity ?? $character->background ?? 'No identity or background specified.' }}
                             </p>
+
+                            @if(!empty($character->social_x) || !empty($character->social_ig))
+                                <div class="mt-3 flex flex-wrap items-center gap-3 border-t border-gray-100 pt-3">
+                                    
+                                    @if(!empty($character->social_x))
+                                        <div class="flex items-center text-xs text-gray-500 hover:text-gray-900 transition-colors" title="X (Twitter)">
+                                            <svg class="h-3.5 w-3.5 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                                            </svg>
+                                            <span class="truncate max-w-[100px]">{{ $character->social_x }}</span>
+                                        </div>
+                                    @endif
+
+                                    @if(!empty($character->social_ig))
+                                        <div class="flex items-center text-xs text-gray-500 hover:text-pink-600 transition-colors" title="Instagram">
+                                            <svg class="h-3.5 w-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="1.5"></rect>
+                                                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" stroke-width="1.5"></path>
+                                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="1.5" stroke-linecap="round"></line>
+                                            </svg>
+                                            <span class="truncate max-w-[100px]">{{ $character->social_ig }}</span>
+                                        </div>
+                                    @endif
+
+                                </div>
+                            @endif
                         </div>
                     </div>
 
