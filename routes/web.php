@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/links', [BoardController::class, 'storeLink'])->name('links.store');
         Route::delete('/links/{boardLink}', [BoardController::class, 'destroyLink'])->name('links.destroy');
         Route::put('/links/{boardLink}/label', [BoardController::class, 'updateLinkLabel'])->name('links.label');
+        Route::delete('/clear', [BoardController::class, 'clearBoard'])->name('clear');
         
     });
 });

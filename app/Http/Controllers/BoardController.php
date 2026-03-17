@@ -109,4 +109,19 @@ class BoardController extends Controller
         $boardLink->delete();
         return response()->json(['success' => true]);
     }
+
+    
+    public function clearBoard($projectId)
+    {
+        
+        $project = \App\Models\Project::findOrFail($projectId);
+        
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        \App\Models\BoardNote::where('project_id', $projectId)->delete();
+
+        return redirect()->back();
+    }
 }
