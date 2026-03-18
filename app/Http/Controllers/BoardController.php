@@ -11,10 +11,15 @@ class BoardController extends Controller
 {
     public function index(Project $project)
     {
-        $notes = $project->boardNotes;
+        // 1. ดึงข้อมูลตัวละคร
+        $characters = $project->characters; 
+        
+        // 2. ดึงข้อมูล Notes และ Links (เปลี่ยนชื่อตัวแปรรับค่าให้สั้นลง)
+        $notes = $project->boardNotes; 
         $links = $project->boardLinks;
 
-        return view('projects.board', compact('project', 'notes', 'links')); 
+        // 3. ส่งข้อมูลทั้งหมดไปที่หน้า Blade
+        return view('projects.board', compact('project', 'characters', 'notes', 'links'));
     }
 
 
