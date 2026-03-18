@@ -9,10 +9,10 @@ class CharacterController extends Controller
 {
     public function index()
     {
-        $characters = Character::where('user_id', auth()->id())->orderBy('updated_at', 'desc')->get();
+        $characters = Character::where('user_id', auth()->id())->orderBy('id')->get();
         return view('characters.index', ['characters' => $characters]);
 
-        $characters = Character::with('projects')->where('user_id', auth()->id())->orderBy('updated_at', 'desc')->get();
+        $characters = Character::with('projects')->where('user_id', auth()->id())->orderBy('id')->get();
         return view('characters.index', ['characters' => $characters]);
     }
 

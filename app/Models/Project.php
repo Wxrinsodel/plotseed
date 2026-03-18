@@ -19,8 +19,10 @@ class Project extends Model implements HasMedia
     public function characters()
     {
         
-        return $this->belongsToMany(Character::class);
+        return $this->belongsToMany(Character::class)->withPivot('is_main');
+
     }
+    
     
     public function user()
     {
@@ -63,4 +65,5 @@ class Project extends Model implements HasMedia
     {
         return $this->hasMany(BoardLink::class);
     }
+
 }

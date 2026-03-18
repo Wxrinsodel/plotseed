@@ -39,7 +39,8 @@ Route::middleware(['auth'])->group(function () {
         // manage characters in project
         Route::get('/{project}/manage-characters', [ProjectController::class, 'manageCharacters'])->name('characters.manage');
         Route::put('/{project}/manage-characters', [ProjectController::class, 'updateCharacters'])->name('characters.update');
-
+        Route::post('/{project}/characters/{character}/pin', [ProjectController::class, 'togglePin'])->name('characters.pin');
+        
         // Workspace (Sequence & Board)
         Route::get('/{project}/sequence', [ProjectController::class, 'sequence'])->name('sequence');
         Route::get('/{project}/board', [ProjectController::class, 'board'])->name('board');

@@ -79,6 +79,11 @@
                 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-full">
                     <div class="flex justify-between items-center mb-6 border-b pb-3">
+                        @if(session('error'))
+                            <div class="bg-red-50 border-l-4 border-red-500 p-3 mb-4 rounded-r-lg">
+                                <p class="text-sm text-red-700 font-bold">⚠️ {{ session('error') }}</p>
+                            </div>
+                        @endif
                         <h2 class="text-xl font-bold text-gray-800">Characters</h2>
                         <a href="{{ route('projects.characters.manage', $project->id) }}" class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-lg hover:bg-gray-200 transition font-medium">
                             + Add / Manage
@@ -86,33 +91,51 @@
                     </div>
                     
                     @if($project->characters && $project->characters->count() > 0)
-                        <div class="space-y-3 mt-4">
-                            @foreach($project->characters as $character)
-                                <a href="{{ route('characters.show', $character->id) }}" class="flex items-center gap-4 p-3 border border-gray-100 rounded-xl hover:shadow-md hover:border-blue-200 transition-all bg-white group cursor-pointer">
-                                    
-                                    <div class="flex-shrink-0">
-                                        <img src="{{ $character->avatarUrl('preview') }}" 
-                                             alt="{{ $character->name }}" 
-                                             class="w-14 h-14 rounded-full object-cover border-2 border-gray-50 shadow-sm group-hover:border-blue-100 transition">
-                                    </div>
+    @php
+        $sortedCharacters = $project->characters->sortByDesc(function($c) {
+            return $c->pivot->is_main;
+        });
+    @endphp
 
-                                    <div class="flex-grow min-w-0">
-                                        <p class="font-bold text-gray-900 text-md truncate group-hover:text-blue-700 transition">{{ $character->name }}</p>
-                                        <p class="text-xs text-blue-600 font-bold tracking-wider uppercase mt-0.5">{{ $character->role ?? 'No Role' }}</p>
-                                    </div>
+    <div class="flex flex-col gap-3 mt-4 max-h-[500px] overflow-y-auto pr-2 relative" style="scrollbar-width: thin;">
+        @foreach($sortedCharacters as $character)
+            
+            <div class="relative group">
+                <a href="{{ route('characters.show', $character->id) }}" 
+                   class="flex items-center gap-4 p-3 border {{ $character->pivot->is_main ? 'border-yellow-300 bg-yellow-50/30' : 'border-gray-100 bg-white' }} rounded-xl hover:shadow-md hover:border-blue-200 transition-all cursor-pointer">
+                    
+                    <div class="flex-shrink-0 relative">
+                        <img src="{{ $character->avatarUrl('preview') }}" 
+                             alt="{{ $character->name }}" 
+                             class="w-14 h-14 rounded-full object-cover border-2 {{ $character->pivot->is_main ? 'border-yellow-400' : 'border-gray-50' }} shadow-sm transition">
+                        
+                        @if($character->pivot->is_main)
+                            <div class="absolute -top-2 -right-1 bg-white rounded-full p-0.5 shadow-sm">
+                                <span class="text-yellow-500 text-xs">👑</span>
+                            </div>
+                        @endif
+                    </div>
 
-                                    <div class="text-gray-300 group-hover:text-blue-500 transition">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="text-center py-10 text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                            <p class="text-sm">No characters in this project yet.</p>
-                            <p class="text-xs mt-1">Click "+ Add" to create a new character.</p>
-                        </div>
-                    @endif
+                    <div class="flex-grow min-w-0 pr-8">
+                        <p class="font-bold {{ $character->pivot->is_main ? 'text-yellow-800' : 'text-gray-900' }} text-md truncate transition">{{ $character->name }}</p>
+                        <p class="text-xs text-blue-600 font-bold tracking-wider uppercase mt-0.5">{{ $character->role ?? 'No Role' }}</p>
+                    </div>
+                </a>
+
+                <form action="{{ route('projects.characters.pin', ['project' => $project->id, 'character' => $character->id]) }}" method="POST" class="absolute top-1/2 -translate-y-1/2 right-3 z-10 m-0">
+                    @csrf
+                    <button type="submit" class="p-1 rounded-full hover:bg-gray-100 transition-colors" title="{{ $character->pivot->is_main ? 'ปลดหมุด' : 'ปักหมุดเป็นตัวเอก' }}">
+                        <svg class="w-6 h-6 {{ $character->pivot->is_main ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 hover:text-yellow-400' }} transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+        @endforeach
+    </div>
+@else
+    @endif
                 </div>
             </div>
             

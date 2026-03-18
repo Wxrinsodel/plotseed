@@ -18,7 +18,7 @@ class ProjectController extends Controller
 
     public function create()
     {
-         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('name')->get();
+         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('id', 'asc')->get();
         return view('projects.create', ['characters' => $characters]);
     }
 
@@ -69,7 +69,7 @@ class ProjectController extends Controller
             abort(403, 'Unauthorized action. You do not have permission to edit this project.');
         }
 
-         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('name')->get();
+         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
         return view('projects.edit', ['project' => $project, 'characters' => $characters]);
     }
 
@@ -151,7 +151,7 @@ class ProjectController extends Controller
             abort(403, 'Unauthorized action. You do not have permission to edit this project.');
         }
 
-         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('name')->get();
+         $characters = \App\Models\Character::where('user_id', auth()->id())->orderBy('id')->get();
         
         return view('projects.manage-characters', [
             'project' => $project, 
@@ -177,6 +177,36 @@ class ProjectController extends Controller
 
     
         return redirect()->route('projects.show', $project->id);
+    }
+
+    public function togglePin($projectId, $characterId)
+    {
+        $project = \App\Models\Project::findOrFail($projectId);
+
+        // ดึงตัวละครที่เลือกมาดูสถานะปัจจุบัน
+        $character = $project->characters()->where('character_id', $characterId)->first();
+        
+        if (!$character) {
+            return back();
+        }
+
+        $isCurrentlyMain = $character->pivot->is_main;
+
+        // ถ้ากำลังจะปักหมุด (เปลี่ยนจาก false เป็น true) ต้องเช็กโควต้าก่อน
+        if (!$isCurrentlyMain) {
+            $mainCount = $project->characters()->wherePivot('is_main', true)->count();
+            if ($mainCount >= 2) {
+                // ถ้าเกิน 2 คน ให้เด้งกลับไปพร้อมแจ้งเตือน Error
+                return back()->with('error', 'คุณสามารถปักหมุดตัวเอกได้สูงสุด 2 คนเท่านั้นครับ!');
+            }
+        }
+
+        // สลับสถานะ (ถ้าปักอยู่ให้ปลด ถ้าปลดอยู่ให้ปัก)
+        $project->characters()->updateExistingPivot($characterId, [
+            'is_main' => !$isCurrentlyMain
+        ]);
+
+        return back();
     }
     
     public function storeSequence(Request $request, $id)

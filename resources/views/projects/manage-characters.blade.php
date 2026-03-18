@@ -18,7 +18,7 @@
                 @csrf
                 @method('PUT') 
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-h-[550px] overflow-y-auto p-2" style="scrollbar-width: thin;">
                     @forelse($characters as $character)
                         <label class="cursor-pointer relative group h-full">
                             
